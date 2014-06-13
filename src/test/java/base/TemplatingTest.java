@@ -1,5 +1,6 @@
 package base;
 
+import org.accessify.annotations.Property;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -27,6 +28,7 @@ public class TemplatingTest {
 
     @Test
     public void testName() throws Exception {
+
 
 
         Method[] methods = TestEntity.class.getDeclaredMethods();
