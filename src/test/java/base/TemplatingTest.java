@@ -65,13 +65,7 @@ public class TemplatingTest {
         String filename;
         ArrayList<File> files = new ArrayList<>();
 
-        File codeGenDir = new File(GENERATED_CODE_FOLDER);
-        if (!codeGenDir.exists()) {
-            try {
-                codeGenDir.mkdirs();
-            } catch (Exception ignored) {
-            }
-        }
+        File codeGenDir = makeDirIfNotExists(GENERATED_CODE_FOLDER);
 
         File file;
         for (PropertyInfo info : infos) {
@@ -118,6 +112,17 @@ public class TemplatingTest {
 //        assertEquals("The quick fox jumps over the lazy dog.", handler3.get(instance));
 //        handler3.set(instance, "I shot a man in Reno and I can't tell you why.");
 //        assertEquals("I shot a man in Reno and I can't tell you why.", handler3.get(instance));
+    }
+
+    private static File makeDirIfNotExists(String dir) {
+        File codeGenDir = new File(dir);
+        if (!codeGenDir.exists()) {
+            try {
+                codeGenDir.mkdirs();
+            } catch (Exception ignored) {
+            }
+        }
+        return codeGenDir;
     }
 
 
