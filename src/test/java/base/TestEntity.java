@@ -36,7 +36,7 @@ public class TestEntity {
     }
 
     @Property.Getter(name = "bool")
-    public Boolean isBool() {
+    public Boolean getBool() {
         return bool;
     }
 
