@@ -6,9 +6,9 @@ import org.accessify.handlers.AbstractPropertyHandler;
 /**
  * Created by edouard on 14/06/17.
  */
-public class TestTypeHandler extends AbstractObjectHandler<DummyHandledType> {
+public class DummyHandledTypeHandler extends AbstractObjectHandler<DummyHandledType> {
 
-    public TestTypeHandler() {
+    public DummyHandledTypeHandler() {
         super(
                 new AbstractPropertyHandler<DummyHandledType, String>("string") {
                     @Override
@@ -41,6 +41,22 @@ public class TestTypeHandler extends AbstractObjectHandler<DummyHandledType> {
                     public Class<Integer> type() {
                         return Integer.class;
                     }
+                },
+                new AbstractPropertyHandler<DummyHandledType, Boolean>("bool") {
+                    @Override
+                    public void set(DummyHandledType instance, Boolean value) {
+                        instance.setBool(value);
+                    }
+
+                    @Override
+                    public Boolean get(DummyHandledType instance) {
+                        return instance.getBool();
+                    }
+
+                    @Override
+                    public Class<Boolean> type() {
+                        return Boolean.class;
+                    }
                 }
         );
     }
@@ -48,5 +64,10 @@ public class TestTypeHandler extends AbstractObjectHandler<DummyHandledType> {
     @Override
     public Class<DummyHandledType> handledType() {
         return DummyHandledType.class;
+    }
+
+    @Override
+    public DummyHandledType newInstance() {
+        return new DummyHandledType();
     }
 }

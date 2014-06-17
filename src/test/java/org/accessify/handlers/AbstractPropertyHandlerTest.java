@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 public class AbstractPropertyHandlerTest {
 
     protected static final String PROPERTYNAME = "string";
+
     final AbstractPropertyHandler<DummyHandledType, String> handler = new AbstractPropertyHandler<DummyHandledType, String>(PROPERTYNAME) {
         @Override
         public void set(DummyHandledType instance, String value) {
