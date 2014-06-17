@@ -1,7 +1,8 @@
 package org.accessify.processor;
 
 import org.accessify.annotations.HandledType;
-import org.apache.commons.lang.NotImplementedException;
+import org.accessify.codegen.Generator;
+import org.accessify.utils.ConfigurationUtils;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
@@ -31,7 +32,10 @@ public class MavenAnnotationProcessor extends AbstractProcessor {
     }
 
     private boolean processImpl(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) throws ClassNotFoundException, IntrospectionException, IOException {
+        return Generator.generateCodeAndCompile(getAllHandledTypes(roundEnv), ConfigurationUtils.CODE_GEN_DIR, ConfigurationUtils.CLASS_FILE_DIR);
+    }
 
+    private ArrayList<Class> getAllHandledTypes(RoundEnvironment roundEnv) {
         Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(HandledType.class);
         ArrayList<Class> handledTypes = new ArrayList<>(elements.size());
         Elements elementUtils = processingEnv.getElementUtils();
@@ -50,17 +54,6 @@ public class MavenAnnotationProcessor extends AbstractProcessor {
                 }
             }
         }
-//        List<VelocityContext> contexts;
-//        CodeTemplateService service;
-//        for (Class type : handledTypes) {
-//            contexts = TemplatingContextsGenerator.generatePropertyHandlersContexts(type);
-////            TemplatingContextsGenerator.generateObjectHandlerContext(type, contexts);
-//            for (VelocityContext context : contexts) {
-//                service = new CodeTemplateService();
-//                service.writePropertyHandler(context, null);
-//            }
-//        }
-        //TODO:IMplement me!
-        throw new NotImplementedException();
+        return handledTypes;
     }
 }
