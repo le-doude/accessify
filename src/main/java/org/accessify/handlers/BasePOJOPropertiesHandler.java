@@ -8,14 +8,14 @@ import java.util.Map;
 /**
  * Created by edouard on 14/06/11.
  */
-public class BasePOJOPropertiesHandler<T> implements ObjectHandler<T> {
+public abstract class BasePOJOPropertiesHandler<T> implements ObjectHandler<T> {
 
     private final Map<String, PropertyHandler<T, ?>> handlers;
 
     public BasePOJOPropertiesHandler(PropertyHandler<T, ?>... handlers) {
         LinkedHashMap<String, PropertyHandler<T, ?>> map = new LinkedHashMap<String, PropertyHandler<T, ?>>();
         for (PropertyHandler<T, ?> handler : handlers) {
-            map.put(handler.property(), handler);
+            if (handler != null) map.put(handler.property(), handler);
         }
         this.handlers = Collections.unmodifiableMap(map);
     }

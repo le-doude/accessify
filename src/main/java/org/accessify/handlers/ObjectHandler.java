@@ -17,4 +17,6 @@ public interface ObjectHandler<T> {
     void setAll(T instance, Map<String, Object> values);
 
     Collection<String> properties();
+
+    Class<T> handledType();
 }

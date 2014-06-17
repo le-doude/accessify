@@ -20,7 +20,7 @@ public class PropertyReaderTest {
     public void testOne() throws Exception {
 
         Class<TestEntity> clazz = TestEntity.class;
-        List<VelocityContext> contexts = PropertyReader.generateHandlerContexts(clazz);
+        List<VelocityContext> contexts = PropertyReader.generatePropertyHandlersContexts(clazz);
 
         assertNotNull(contexts);
         assertTrue(CollectionUtils.isNotEmpty(contexts));

@@ -23,7 +23,7 @@ public class CodeTemplateServiceTest {
 
     @Test
     public void testOne() throws Exception {
-        List<VelocityContext> contexts = PropertyReader.generateHandlerContexts(TestEntity.class);
+        List<VelocityContext> contexts = PropertyReader.generatePropertyHandlersContexts(TestEntity.class);
         VelocityContext context = contexts.get(0);
 
         StringWriter writer = new StringWriter();
@@ -40,7 +40,7 @@ public class CodeTemplateServiceTest {
     @Test
     public void testWithCompile() throws Exception {
         File dir = FilesUtils.makeDirIfNotExists(GENERATED_CODE_FOLDER);
-        List<VelocityContext> contexts = PropertyReader.generateHandlerContexts(TestEntity.class);
+        List<VelocityContext> contexts = PropertyReader.generatePropertyHandlersContexts(TestEntity.class);
         VelocityContext context = contexts.get(0);
         File tempFile = new File(dir, context.internalGet(PropertyReader.HANDLER_TYPE) + ".java");
         FileWriter writer = new FileWriter(tempFile);
