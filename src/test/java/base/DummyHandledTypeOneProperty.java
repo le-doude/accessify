@@ -6,7 +6,7 @@ import org.accessify.annotations.HandledType;
  * Created by edouard on 14/06/11.
  */
 @HandledType
-public class DummyHandledType2 {
+public class DummyHandledTypeOneProperty {
 
     private String onlyOne;
 

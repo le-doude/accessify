@@ -19,4 +19,6 @@ public interface ObjectHandler<T> {
     Collection<String> properties();
 
     Class<T> handledType();
+
+    T newInstance();
 }

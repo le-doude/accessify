@@ -1,12 +1,12 @@
 package base;
 
+import org.accessify.handlers.AbstractObjectHandler;
 import org.accessify.handlers.AbstractPropertyHandler;
-import org.accessify.handlers.BasePOJOPropertiesHandler;
 
 /**
  * Created by edouard on 14/06/17.
  */
-public class TestTypeHandler extends BasePOJOPropertiesHandler<DummyHandledType> {
+public class TestTypeHandler extends AbstractObjectHandler<DummyHandledType> {
 
     public TestTypeHandler() {
         super(

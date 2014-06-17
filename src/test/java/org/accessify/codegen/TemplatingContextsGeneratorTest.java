@@ -1,7 +1,7 @@
 package org.accessify.codegen;
 
 import base.DummyHandledType;
-import base.DummyHandledType2;
+import base.DummyHandledTypeOneProperty;
 import base.DummyNonHandledType;
 import org.accessify.utils.ContextDebugUtil;
 import org.apache.velocity.VelocityContext;
@@ -23,7 +23,7 @@ public class TemplatingContextsGeneratorTest {
     @Test
     public void testSingleProperty() throws Exception {
         VelocityContext context = TemplatingContextsGenerator.toContext(
-                new PropertyDescriptor("onlyOne", DummyHandledType2.class)
+                new PropertyDescriptor("onlyOne", DummyHandledTypeOneProperty.class)
         );
         assertNotNull(context);
         assertTrue(context.internalContainsKey(TemplatingContextsGenerator.PropertyContextConstants.VALUE));

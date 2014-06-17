@@ -48,7 +48,7 @@ public class CodeTemplateServiceTest {
         service.writePropertyHandler(context, writer);
         writer.close();
         assertTrue(CompilerService.compileGeneratedSourceFiles(tempFile));
-        tempFile.delete();
-        dir.delete();
+//        tempFile.delete();
+//        dir.delete();
     }
 }
