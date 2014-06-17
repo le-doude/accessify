@@ -1,9 +1,6 @@
-package org.accessify.processor;
+package org.accessify.codegen;
 
-import base.TestEntity;
-import org.accessify.codegen.CodeTemplateService;
-import org.accessify.codegen.CompilerService;
-import org.accessify.codegen.PropertyReader;
+import base.DummyHandledType;
 import org.accessify.utils.FilesUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
@@ -26,7 +23,7 @@ public class CodeTemplateServiceTest {
 
     @Test
     public void testOne() throws Exception {
-        List<VelocityContext> contexts = PropertyReader.generatePropertyHandlersContexts(TestEntity.class);
+        List<VelocityContext> contexts = TemplatingContextsGenerator.generatePropertyHandlersContexts(DummyHandledType.class);
         VelocityContext context = contexts.get(0);
 
         StringWriter writer = new StringWriter();
@@ -43,9 +40,9 @@ public class CodeTemplateServiceTest {
     @Test
     public void testWithCompile() throws Exception {
         File dir = FilesUtils.makeDirIfNotExists(GENERATED_CODE_FOLDER);
-        List<VelocityContext> contexts = PropertyReader.generatePropertyHandlersContexts(TestEntity.class);
+        List<VelocityContext> contexts = TemplatingContextsGenerator.generatePropertyHandlersContexts(DummyHandledType.class);
         VelocityContext context = contexts.get(0);
-        File tempFile = new File(dir, context.internalGet(PropertyReader.HANDLER_TYPE) + ".java");
+        File tempFile = new File(dir, context.internalGet(TemplatingContextsGenerator.PropertyContextConstants.HANDLER_TYPE) + ".java");
         FileWriter writer = new FileWriter(tempFile);
         CodeTemplateService service = new CodeTemplateService();
         service.writePropertyHandler(context, writer);

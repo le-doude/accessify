@@ -6,18 +6,18 @@ import org.accessify.handlers.BasePOJOPropertiesHandler;
 /**
  * Created by edouard on 14/06/17.
  */
-public class TestTypeHandler extends BasePOJOPropertiesHandler<TestEntity> {
+public class TestTypeHandler extends BasePOJOPropertiesHandler<DummyHandledType> {
 
     public TestTypeHandler() {
         super(
-                new AbstractPropertyHandler<TestEntity, String>("string") {
+                new AbstractPropertyHandler<DummyHandledType, String>("string") {
                     @Override
-                    public void set(TestEntity instance, String value) {
+                    public void set(DummyHandledType instance, String value) {
                         instance.setString(value);
                     }
 
                     @Override
-                    public String get(TestEntity instance) {
+                    public String get(DummyHandledType instance) {
                         return instance.getString();
                     }
 
@@ -26,14 +26,14 @@ public class TestTypeHandler extends BasePOJOPropertiesHandler<TestEntity> {
                         return String.class;
                     }
                 },
-                new AbstractPropertyHandler<TestEntity, Integer>("integer") {
+                new AbstractPropertyHandler<DummyHandledType, Integer>("integer") {
                     @Override
-                    public void set(TestEntity instance, Integer value) {
+                    public void set(DummyHandledType instance, Integer value) {
                         instance.setInteger(value);
                     }
 
                     @Override
-                    public Integer get(TestEntity instance) {
+                    public Integer get(DummyHandledType instance) {
                         return instance.getInteger();
                     }
 
@@ -43,5 +43,10 @@ public class TestTypeHandler extends BasePOJOPropertiesHandler<TestEntity> {
                     }
                 }
         );
+    }
+
+    @Override
+    public Class<DummyHandledType> handledType() {
+        return DummyHandledType.class;
     }
 }

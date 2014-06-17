@@ -4,7 +4,6 @@ import org.accessify.annotations.Property;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.junit.Test;
 
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
@@ -19,19 +18,19 @@ import java.util.*;
 /**
  * Created by edouard on 14/06/11.
  */
-public class TemplatingTest {
+public class ExperimentOne {
 
     static final String CLASS_NAME_FORMAT = "%s%sHandler";
     static final String FILE_NAME_FORMAT = "%s.java";
     static final String GENERATED_CODE_FOLDER = "src/test/java";
     static final String GENERATED_CLASS_FILES_FOLDER = "target/classes";
 
-    @Test
+//    @Test
     public void testName() throws Exception {
 
 
 
-        Method[] methods = TestEntity.class.getDeclaredMethods();
+        Method[] methods = DummyHandledType.class.getDeclaredMethods();
         Map<String, String> settersNAme = new HashMap<>();
         for (Method setter : methods) {
             if (setter.isAnnotationPresent(Property.Setter.class)) {
@@ -91,7 +90,7 @@ public class TemplatingTest {
 
         //NOW we test the generated property handlers
 
-        TestEntity instance = new TestEntity();
+        DummyHandledType instance = new DummyHandledType();
         instance.setBool(true);
         instance.setInteger(15);
         instance.setString("The quick fox jumps over the lazy dog.");

@@ -7,7 +7,7 @@ import org.accessify.annotations.Property;
  * Created by edouard on 14/06/11.
  */
 @HandledType
-public class TestEntity {
+public class DummyHandledType {
 
     private String string;
 

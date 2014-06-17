@@ -1,8 +1,7 @@
 package org.accessify.codegen;
 
 import org.accessify.annotations.HandledType;
-import org.accessify.exceptions.NoArgConstructorRequired;
-import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.slf4j.Logger;
@@ -11,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,18 +18,28 @@ import java.util.List;
 /**
  * Created by edouard on 14/06/12.
  */
-public class PropertyReader {
+public class TemplatingContextsGenerator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PropertyReader.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TemplatingContextsGenerator.class);
 
-    protected static final String PACKAGE = "package";
-    protected static final String ENTITY = "entity";
-    protected static final String HANDLER_TYPE = "handlerClassName";
-    protected static final String VALUE = "value";
-    protected static final String SETTER = "setter";
-    protected static final String GETTER = "getter";
-    protected static final String PROPERTY = "property";
-    protected static final String PROPERTY_HANDLER_CLASSNAME_PATTERN = "%s_%sPropertyHandler";
+    static class PropertyContextConstants {
+
+        static final String PACKAGE = "package";
+        static final String ENTITY = "entity";
+        static final String HANDLER_TYPE = "handlerClassName";
+        static final String VALUE = "value";
+        static final String SETTER = "setter";
+        static final String GETTER = "getter";
+        static final String PROPERTY = "property";
+        static final String PROPERTY_HANDLER_CLASSNAME_PATTERN = "%s_%sPropertyHandler";
+    }
+
+    static class TypeContextConstants {
+        static final String PACKAGE = "package";
+        static final String PROPERTY_HANDLERS = "propertyHandlers";
+        static final String HANDLER_CLASS_NAME = "handlerClassName";
+        static final String ENITITY_CLASS_NAME = "enitityClassName";
+    }
 
     public static List<VelocityContext> generatePropertyHandlersContexts(Class<?> clazz) throws IntrospectionException {
         if (clazz.isAnnotationPresent(HandledType.class)) {
@@ -45,7 +53,7 @@ public class PropertyReader {
                     if (temp != null) {
                         contexts.add(temp);
                     }
-                }else{
+                } else {
                     addToEmbeddedHandlers(property);
                 }
             }
@@ -55,16 +63,19 @@ public class PropertyReader {
         }
     }
 
-    public static List<VelocityContext> generateObjectHandlerContext(Class<?> type, List<VelocityContext> propertyHandlersContexts){
-        if(type.isAnnotationPresent(HandledType.class)){
-            try {
-                Constructor<?> constructor = type.getConstructor();
-
-            } catch (NoSuchMethodException e) {
-                throw new NoArgConstructorRequired(e);
-            }
+    public static VelocityContext generateObjectHandlerContext(Class<?> type, List<VelocityContext> propertyHandlersContexts) {
+        if (type.isAnnotationPresent(HandledType.class)) {
+            //TODO
+            throw new NotImplementedException();
+//            try {
+//                Constructor<?> constructor = type.getConstructor();
+//
+//            } catch (NoSuchMethodException e) {
+//                throw new NoArgConstructorRequired(e);
+//            }
+        } else {
+            return null;
         }
-        return Collections.emptyList();
     }
 
     private static void addToEmbeddedHandlers(PropertyDescriptor property) {
@@ -100,13 +111,13 @@ public class PropertyReader {
         if (StringUtils.isNoneBlank(enclosingClass, name, packageName, typeName, getter, setter)) {
             LOG.debug("{} {} {} {} {} {}", enclosingClass, name, packageName, typeName, getter, setter);
             VelocityContext context = new VelocityContext();
-            context.put(PROPERTY, name);
-            context.put(GETTER, getter);
-            context.put(SETTER, setter);
-            context.put(VALUE, typeName);
-            context.put(ENTITY, enclosingClass);
-            context.put(PACKAGE, packageName);
-            context.put(HANDLER_TYPE, String.format(PROPERTY_HANDLER_CLASSNAME_PATTERN, name, enclosingClass));
+            context.put(PropertyContextConstants.PROPERTY, name);
+            context.put(PropertyContextConstants.GETTER, getter);
+            context.put(PropertyContextConstants.SETTER, setter);
+            context.put(PropertyContextConstants.VALUE, typeName);
+            context.put(PropertyContextConstants.ENTITY, enclosingClass);
+            context.put(PropertyContextConstants.PACKAGE, packageName);
+            context.put(PropertyContextConstants.HANDLER_TYPE, String.format(PropertyContextConstants.PROPERTY_HANDLER_CLASSNAME_PATTERN, name, enclosingClass));
             return context;
         } else {
             LOG.debug("At least one necessary is blank.");

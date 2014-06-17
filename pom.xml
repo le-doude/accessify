@@ -7,6 +7,35 @@
     <artifactId>accessify</artifactId>
     <version>0.1-SNAPSHOT</version>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-invoker-plugin</artifactId>
+                <configuration>
+                    <addTestClassPath>true</addTestClassPath>
+                    <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+                    <filterProperties>
+                        <auto.version>${project.version}</auto.version>
+                    </filterProperties>
+                    <pomIncludes>
+                        <pomInclude>*/pom.xml</pomInclude>
+                    </pomIncludes>
+                    <streamLogs>true</streamLogs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>install</goal>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
     <properties>
         <slf4jVersion>1.7.7</slf4jVersion>
         <logbackVersion>1.1.2</logbackVersion>
@@ -59,6 +88,7 @@
             <version>${logbackVersion}</version>
         </dependency>
     </dependencies>
+
 
 
 </project>
