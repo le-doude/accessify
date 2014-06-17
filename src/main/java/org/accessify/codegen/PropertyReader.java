@@ -1,4 +1,4 @@
-package org.accessify.processor;
+package org.accessify.codegen;
 
 import org.accessify.annotations.HandledType;
 import org.accessify.exceptions.NoArgConstructorRequired;

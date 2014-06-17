@@ -1,6 +1,9 @@
 package org.accessify.processor;
 
 import base.TestEntity;
+import org.accessify.codegen.CodeTemplateService;
+import org.accessify.codegen.CompilerService;
+import org.accessify.codegen.PropertyReader;
 import org.accessify.utils.FilesUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;

@@ -1,6 +1,7 @@
 package org.accessify.processor;
 
 import base.TestEntity;
+import org.accessify.codegen.PropertyReader;
 import org.accessify.utils.ContextDebugUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.velocity.VelocityContext;

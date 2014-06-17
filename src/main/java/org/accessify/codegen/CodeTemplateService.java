@@ -1,4 +1,4 @@
-package org.accessify.processor;
+package org.accessify.codegen;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;

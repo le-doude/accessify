@@ -2,7 +2,7 @@ package ${package}
 
 import org.accessify.handlers.BasePOJOPropertiesHandler;
 #foreach($propertyHandler in $propertyHandlers)
-import ${propertyHandler.package}.${propertyHandler.name}
+import ${propertyHandler.package}.${propertyHandler.handlerClassName}
 #end
 
 public class ${handlerClassName} extends BasePOJOPropertiesHandler<${enitityClassName}> {
@@ -10,7 +10,7 @@ public class ${handlerClassName} extends BasePOJOPropertiesHandler<${enitityClas
     public ${handlerClassName}() {
         super(
             #foreach($propertyHandler in $propertyHandlers)
-                new ${propertyHandler.name}()},
+                new ${propertyHandler.handlerClassName}()},
             #end
             null
         );

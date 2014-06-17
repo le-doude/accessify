@@ -1,4 +1,4 @@
-package org.accessify.processor;
+package org.accessify.codegen;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
