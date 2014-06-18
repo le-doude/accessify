@@ -22,16 +22,32 @@ public class CompilerService {
 
     static final String GENERATED_CLASS_FILES_FOLDER = "target/classes";
 
-    public static Boolean compileGeneratedSourceFiles(List<File> files) throws IOException {
+    final String classFilesFolderName;
+
+    public CompilerService(String classFilesFolderName) {
+        this.classFilesFolderName = classFilesFolderName;
+    }
+
+    public CompilerService() {
+        this(GENERATED_CLASS_FILES_FOLDER);
+    }
+
+    /**
+     * Compiles provided Java source files in the order provided (hence the use of list)
+     * @param files
+     * @return true if all files compiled successfully
+     * @throws IOException
+     */
+    public Boolean compileGeneratedSourceFiles(List<File> files) throws IOException {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(new DiagnosticLoggingListener("FILE_MANAGER"), DEFAULT_LOCALE, Charset.defaultCharset());
         Iterable<? extends JavaFileObject> javaFiles = fileManager.getJavaFileObjectsFromFiles(files);
-        Boolean success = compiler.getTask(null, fileManager, new DiagnosticLoggingListener("COMPILER"), Arrays.asList("-d", GENERATED_CLASS_FILES_FOLDER), null, javaFiles).call();
+        Boolean success = compiler.getTask(null, fileManager, new DiagnosticLoggingListener("COMPILER"), Arrays.asList("-d", classFilesFolderName), null, javaFiles).call();
         fileManager.close();
         return success;
     }
 
-    public static Boolean compileGeneratedSourceFiles(File... files) throws IOException {
+    public Boolean compileGeneratedSourceFiles(File... files) throws IOException {
         return compileGeneratedSourceFiles(Arrays.asList(files));
     }
 

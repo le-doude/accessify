@@ -1,7 +1,7 @@
 package org.accessify.processor;
 
 import org.accessify.annotations.HandledType;
-import org.accessify.codegen.Generator;
+import org.accessify.codegen.HandledTypesProcessor;
 import org.accessify.utils.ConfigurationUtils;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -32,7 +32,7 @@ public class MavenAnnotationProcessor extends AbstractProcessor {
     }
 
     private boolean processImpl(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) throws ClassNotFoundException, IntrospectionException, IOException {
-        return Generator.generateCodeAndCompile(getAllHandledTypes(roundEnv), ConfigurationUtils.CODE_GEN_DIR, ConfigurationUtils.CLASS_FILE_DIR);
+        return HandledTypesProcessor.generateCodeAndCompile(getAllHandledTypes(roundEnv), ConfigurationUtils.CODE_GEN_DIR, ConfigurationUtils.CLASS_FILE_DIR);
     }
 
     private ArrayList<Class> getAllHandledTypes(RoundEnvironment roundEnv) {

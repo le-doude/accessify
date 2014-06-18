@@ -14,7 +14,7 @@ import java.util.Properties;
 /**
  * Created by edouard on 14/06/16.
  */
-public class CodeTemplateService {
+public class CodeGenService {
 
     protected static final String VELOCITY_PROPERTIES_FILE = "velocity.properties";
     protected static final String PROPERTY_HANDLER_VELOCITY_TEMPLATE = "property_handler.vtl";
@@ -24,7 +24,7 @@ public class CodeTemplateService {
     private final VelocityEngine engine;
     private final Template objectHandlerTemplate;
 
-    public CodeTemplateService() throws IOException {
+    public CodeGenService() throws IOException {
         Properties properties = new Properties();
         URL url = this.getClass().getClassLoader().getResource(VELOCITY_PROPERTIES_FILE);
         properties.load(url.openStream());
@@ -62,4 +62,6 @@ public class CodeTemplateService {
             throw new IllegalArgumentException("Missing fields in context");
         }
     }
+
+
 }

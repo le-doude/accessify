@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by edouard on 14/06/17.
  */
-public class Generator {
+public class HandledTypesProcessor {
 
     /**
      * Create code and compile it from the information provided by the handledTypes

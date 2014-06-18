@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 
 public class CodeTemplateServiceTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CodeTemplateService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CodeGenService.class);
 
     static final String GENERATED_CODE_FOLDER = "generated/src/test/java";
 
@@ -27,7 +27,7 @@ public class CodeTemplateServiceTest {
         VelocityContext context = contexts.get(0);
 
         StringWriter writer = new StringWriter();
-        CodeTemplateService service = new CodeTemplateService();
+        CodeGenService service = new CodeGenService();
         service.writePropertyHandler(context, writer);
         writer.close();
         String code = writer.toString();
@@ -44,7 +44,7 @@ public class CodeTemplateServiceTest {
         VelocityContext context = contexts.get(0);
         File tempFile = new File(dir, context.internalGet(PropertyTemplateFields.HANDLER_TYPE) + ".java");
         FileWriter writer = new FileWriter(tempFile);
-        CodeTemplateService service = new CodeTemplateService();
+        CodeGenService service = new CodeGenService();
         service.writePropertyHandler(context, writer);
         writer.close();
         assertTrue(CompilerService.compileGeneratedSourceFiles(tempFile));
