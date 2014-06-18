@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by edouard on 14/06/12.
  */
-public class TemplatingContextsGenerator {
+class TemplatingContextsGenerator {
 
     private static final Logger LOG = LoggerFactory.getLogger(TemplatingContextsGenerator.class);
 

@@ -14,7 +14,7 @@ import java.util.Properties;
 /**
  * Created by edouard on 14/06/16.
  */
-public class CodeGenService {
+class CodeGenService {
 
     protected static final String VELOCITY_PROPERTIES_FILE = "velocity.properties";
     protected static final String PROPERTY_HANDLER_VELOCITY_TEMPLATE = "property_handler.vtl";

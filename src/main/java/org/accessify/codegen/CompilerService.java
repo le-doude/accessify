@@ -14,7 +14,7 @@ import java.util.Locale;
 /**
  * Created by edouard on 14/06/16.
  */
-public class CompilerService {
+class CompilerService {
 
     static final Locale DEFAULT_LOCALE = Locale.getDefault();
     static final Logger LOG = LoggerFactory.getLogger(CompilerService.class);
