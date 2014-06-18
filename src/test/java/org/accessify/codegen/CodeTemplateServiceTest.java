@@ -42,7 +42,7 @@ public class CodeTemplateServiceTest {
         File dir = FilesUtils.makeDirIfNotExists(GENERATED_CODE_FOLDER);
         List<VelocityContext> contexts = TemplatingContextsGenerator.generatePropertyHandlersContexts(DummyHandledType.class);
         VelocityContext context = contexts.get(0);
-        File tempFile = new File(dir, context.internalGet(TemplatingContextsGenerator.PropertyContextConstants.HANDLER_TYPE) + ".java");
+        File tempFile = new File(dir, context.internalGet(PropertyTemplateFields.HANDLER_TYPE) + ".java");
         FileWriter writer = new FileWriter(tempFile);
         CodeTemplateService service = new CodeTemplateService();
         service.writePropertyHandler(context, writer);

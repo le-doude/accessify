@@ -26,13 +26,13 @@ public class TemplatingContextsGeneratorTest {
                 new PropertyDescriptor("onlyOne", DummyHandledTypeOneProperty.class)
         );
         assertNotNull(context);
-        assertTrue(context.internalContainsKey(TemplatingContextsGenerator.PropertyContextConstants.VALUE));
-        assertTrue(context.internalContainsKey(TemplatingContextsGenerator.PropertyContextConstants.GETTER));
-        assertTrue(context.internalContainsKey(TemplatingContextsGenerator.PropertyContextConstants.SETTER));
-        assertTrue(context.internalContainsKey(TemplatingContextsGenerator.PropertyContextConstants.PROPERTY));
-        assertTrue(context.internalContainsKey(TemplatingContextsGenerator.PropertyContextConstants.HANDLER_TYPE));
-        assertTrue(context.internalContainsKey(TemplatingContextsGenerator.PropertyContextConstants.PACKAGE));
-        assertTrue(context.internalContainsKey(TemplatingContextsGenerator.PropertyContextConstants.ENTITY));
+        assertTrue(context.internalContainsKey(PropertyTemplateFields.VALUE));
+        assertTrue(context.internalContainsKey(PropertyTemplateFields.GETTER));
+        assertTrue(context.internalContainsKey(PropertyTemplateFields.SETTER));
+        assertTrue(context.internalContainsKey(PropertyTemplateFields.PROPERTY));
+        assertTrue(context.internalContainsKey(PropertyTemplateFields.HANDLER_TYPE));
+        assertTrue(context.internalContainsKey(PropertyTemplateFields.PACKAGE));
+        assertTrue(context.internalContainsKey(PropertyTemplateFields.ENTITY));
         LOG.debug(ContextDebugUtil.toString(context));
     }
 
@@ -52,13 +52,13 @@ public class TemplatingContextsGeneratorTest {
         assertTrue(isNotEmpty(contexts));
         assertEquals(3, contexts.size());
         for (VelocityContext context : contexts) {
-            assertTrue(context.internalContainsKey(TemplatingContextsGenerator.PropertyContextConstants.VALUE));
-            assertTrue(context.internalContainsKey(TemplatingContextsGenerator.PropertyContextConstants.GETTER));
-            assertTrue(context.internalContainsKey(TemplatingContextsGenerator.PropertyContextConstants.SETTER));
-            assertTrue(context.internalContainsKey(TemplatingContextsGenerator.PropertyContextConstants.PROPERTY));
-            assertTrue(context.internalContainsKey(TemplatingContextsGenerator.PropertyContextConstants.HANDLER_TYPE));
-            assertTrue(context.internalContainsKey(TemplatingContextsGenerator.PropertyContextConstants.PACKAGE));
-            assertTrue(context.internalContainsKey(TemplatingContextsGenerator.PropertyContextConstants.ENTITY));
+            assertTrue(context.internalContainsKey(PropertyTemplateFields.VALUE));
+            assertTrue(context.internalContainsKey(PropertyTemplateFields.GETTER));
+            assertTrue(context.internalContainsKey(PropertyTemplateFields.SETTER));
+            assertTrue(context.internalContainsKey(PropertyTemplateFields.PROPERTY));
+            assertTrue(context.internalContainsKey(PropertyTemplateFields.HANDLER_TYPE));
+            assertTrue(context.internalContainsKey(PropertyTemplateFields.PACKAGE));
+            assertTrue(context.internalContainsKey(PropertyTemplateFields.ENTITY));
             LOG.debug(ContextDebugUtil.toString(context));
         }
     }
@@ -76,10 +76,10 @@ public class TemplatingContextsGeneratorTest {
         Class<DummyHandledType> type = DummyHandledType.class;
         VelocityContext context = TemplatingContextsGenerator.generateObjectHandlerContext(type, TemplatingContextsGenerator.generatePropertyHandlersContexts(type));
         assertNotNull(context);
-        assertTrue(context.containsKey(TemplatingContextsGenerator.TypeContextConstants.PACKAGE));
-        assertTrue(context.containsKey(TemplatingContextsGenerator.TypeContextConstants.PROPERTY_HANDLERS));
-        assertTrue(context.containsKey(TemplatingContextsGenerator.TypeContextConstants.HANDLER_CLASS_NAME));
-        assertTrue(context.containsKey(TemplatingContextsGenerator.TypeContextConstants.ENITITY_CLASS_NAME));
+        assertTrue(context.containsKey(ObjectHandlerTemplateFields.PACKAGE));
+        assertTrue(context.containsKey(ObjectHandlerTemplateFields.PROPERTY_HANDLERS));
+        assertTrue(context.containsKey(ObjectHandlerTemplateFields.HANDLER_CLASS_NAME));
+        assertTrue(context.containsKey(ObjectHandlerTemplateFields.ENITITY_CLASS_NAME));
         LOG.debug(ContextDebugUtil.toString(context));
     }
 

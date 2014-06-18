@@ -1,16 +1,13 @@
 package ${package}
 
 import org.accessify.handlers.BasePOJOPropertiesHandler;
-#foreach($propertyHandler in $propertyHandlers)
-import ${propertyHandler.package}.${propertyHandler.handlerClassName}
-#end
 
 public class ${handlerClassName} extends BasePOJOPropertiesHandler<${enitityClassName}> {
 
     public ${handlerClassName}() {
         super(
             #foreach($propertyHandler in $propertyHandlers)
-                new ${propertyHandler.handlerClassName}()},
+                new ${propertyHandler}(),
             #end
             null
         );
