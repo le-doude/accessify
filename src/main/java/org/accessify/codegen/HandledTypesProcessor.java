@@ -18,9 +18,9 @@ public class HandledTypesProcessor {
      * @param handledTypes
      * @param codeGenDirectory
      * @param compileClassDir
-     * @return true if compilation completed successfully
+     * @return class names of the compile object handlers (do not return the property handlers)
      */
-    public static boolean generateCodeAndCompile(List<Class> handledTypes, String codeGenDirectory, String compileClassDir) throws IntrospectionException, IOException {
+    public static List<String> generateCodeAndCompile(List<Class> handledTypes, String codeGenDirectory, String compileClassDir) throws IntrospectionException, IOException {
 
         List<VelocityContext> propertyHandlersContexts;
         VelocityContext objectHandlerContext;

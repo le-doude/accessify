@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import javax.tools.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
@@ -34,21 +35,37 @@ class CompilerService {
 
     /**
      * Compiles provided Java source files in the order provided (hence the use of list)
+     *
      * @param files
      * @return true if all files compiled successfully
      * @throws IOException
      */
-    public Boolean compileGeneratedSourceFiles(List<File> files) throws IOException {
+    public Boolean compileGeneratedSourceFiles(List<String> classesNames, List<File> files) throws IOException {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(new DiagnosticLoggingListener("FILE_MANAGER"), DEFAULT_LOCALE, Charset.defaultCharset());
         Iterable<? extends JavaFileObject> javaFiles = fileManager.getJavaFileObjectsFromFiles(files);
-        Boolean success = compiler.getTask(null, fileManager, new DiagnosticLoggingListener("COMPILER"), Arrays.asList("-d", classFilesFolderName), null, javaFiles).call();
+        Boolean success = compiler.getTask(
+                new OutputStreamWriter(System.out),
+                fileManager,
+                new DiagnosticLoggingListener("COMPILER"),
+                Arrays.asList("-d", classFilesFolderName),
+                classesNames,
+                javaFiles
+        ).call();
         fileManager.close();
         return success;
     }
 
+    public Boolean compileGeneratedSourceFiles(List<String> classesNames, File... files) throws IOException {
+        return compileGeneratedSourceFiles(classesNames, Arrays.asList(files));
+    }
+
+    public Boolean compileGeneratedSourceFiles(List<File> files) throws IOException {
+        return compileGeneratedSourceFiles(null, files);
+    }
+
     public Boolean compileGeneratedSourceFiles(File... files) throws IOException {
-        return compileGeneratedSourceFiles(Arrays.asList(files));
+        return compileGeneratedSourceFiles(null, files);
     }
 
     static class DiagnosticLoggingListener implements DiagnosticListener<JavaFileObject> {
