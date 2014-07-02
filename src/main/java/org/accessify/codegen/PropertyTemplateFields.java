@@ -1,8 +1,8 @@
 package org.accessify.codegen;
 
 /**
-* Created by edouard on 14/06/18.
-*/
+ * Created by edouard on 14/06/18.
+ */
 class PropertyTemplateFields {
 
     static final String PACKAGE = "package";

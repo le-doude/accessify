@@ -18,12 +18,13 @@ import static org.junit.Assert.*;
 
 public class TemplatingContextsGeneratorTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TemplatingContextsGeneratorTest.class);
+    private static final Logger LOG =
+        LoggerFactory.getLogger(TemplatingContextsGeneratorTest.class);
 
     @Test
     public void testSingleProperty() throws Exception {
         VelocityContext context = TemplatingContextsGenerator.toContext(
-                new PropertyDescriptor("onlyOne", DummyHandledTypeOneProperty.class)
+            new PropertyDescriptor("onlyOne", DummyHandledTypeOneProperty.class)
         );
         assertNotNull(context);
         assertTrue(context.internalContainsKey(PropertyTemplateFields.VALUE));
@@ -39,7 +40,7 @@ public class TemplatingContextsGeneratorTest {
     @Test
     public void testClassPropertyNotIncluded() throws Exception {
         VelocityContext context = TemplatingContextsGenerator.toContext(
-                new PropertyDescriptor("class", null, null)
+            new PropertyDescriptor("class", null, null)
         );
         assertNull(context);
     }
@@ -47,7 +48,8 @@ public class TemplatingContextsGeneratorTest {
     @Test
     public void testPropertyHandlers() throws Exception {
         Class<DummyHandledType> clazz = DummyHandledType.class;
-        List<VelocityContext> contexts = TemplatingContextsGenerator.generatePropertyHandlersContexts(clazz);
+        List<VelocityContext> contexts =
+            TemplatingContextsGenerator.generatePropertyHandlersContexts(clazz);
         assertNotNull(contexts);
         assertTrue(isNotEmpty(contexts));
         assertEquals(3, contexts.size());
@@ -66,7 +68,8 @@ public class TemplatingContextsGeneratorTest {
     @Test
     public void testPropertyHandlersEmpty() throws Exception {
         Class<DummyNonHandledType> clazz = DummyNonHandledType.class;
-        List<VelocityContext> contexts = TemplatingContextsGenerator.generatePropertyHandlersContexts(clazz);
+        List<VelocityContext> contexts =
+            TemplatingContextsGenerator.generatePropertyHandlersContexts(clazz);
         assertNotNull(contexts);
         assertTrue(isEmpty(contexts));
     }
@@ -74,7 +77,8 @@ public class TemplatingContextsGeneratorTest {
     @Test
     public void testObjectHandler() throws Exception {
         Class<DummyHandledType> type = DummyHandledType.class;
-        VelocityContext context = TemplatingContextsGenerator.generateObjectHandlerContext(type, TemplatingContextsGenerator.generatePropertyHandlersContexts(type));
+        VelocityContext context = TemplatingContextsGenerator.generateObjectHandlerContext(type,
+            TemplatingContextsGenerator.generatePropertyHandlersContexts(type));
         assertNotNull(context);
         assertTrue(context.containsKey(ObjectHandlerTemplateFields.PACKAGE));
         assertTrue(context.containsKey(ObjectHandlerTemplateFields.PROPERTY_HANDLERS));
@@ -86,7 +90,8 @@ public class TemplatingContextsGeneratorTest {
     @Test
     public void testName() throws Exception {
         Class<DummyNonHandledType> type = DummyNonHandledType.class;
-        VelocityContext context = TemplatingContextsGenerator.generateObjectHandlerContext(type, TemplatingContextsGenerator.generatePropertyHandlersContexts(type));
+        VelocityContext context = TemplatingContextsGenerator.generateObjectHandlerContext(type,
+            TemplatingContextsGenerator.generatePropertyHandlersContexts(type));
         assertNull(context);
     }
 }

@@ -2,6 +2,7 @@ package org.accessify.handlers; /**
  * Created by edouard on 14/06/11.
  */
 
+
 /**
  * Handles calls to a specific property (of type V) of an object of type T
  *

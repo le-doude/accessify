@@ -11,5 +11,5 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE})
 @Inherited
 public @interface PropertyHandlers {
-    Class<? extends PropertyHandler<?,?>>[] value();
+    Class<? extends PropertyHandler<?, ?>>[] value();
 }

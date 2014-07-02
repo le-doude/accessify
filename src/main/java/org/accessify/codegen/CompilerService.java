@@ -40,23 +40,28 @@ class CompilerService {
      * @return true if all files compiled successfully
      * @throws IOException
      */
-    public Boolean compileGeneratedSourceFiles(List<String> classesNames, List<File> files) throws IOException {
+    public Boolean compileGeneratedSourceFiles(List<String> classesNames, List<File> files)
+        throws IOException {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        StandardJavaFileManager fileManager = compiler.getStandardFileManager(new DiagnosticLoggingListener("FILE_MANAGER"), DEFAULT_LOCALE, Charset.defaultCharset());
-        Iterable<? extends JavaFileObject> javaFiles = fileManager.getJavaFileObjectsFromFiles(files);
+        StandardJavaFileManager fileManager = compiler
+            .getStandardFileManager(new DiagnosticLoggingListener("FILE_MANAGER"), DEFAULT_LOCALE,
+                Charset.defaultCharset());
+        Iterable<? extends JavaFileObject> javaFiles =
+            fileManager.getJavaFileObjectsFromFiles(files);
         Boolean success = compiler.getTask(
-                new OutputStreamWriter(System.out),
-                fileManager,
-                new DiagnosticLoggingListener("COMPILER"),
-                Arrays.asList("-d", classFilesFolderName),
-                classesNames,
-                javaFiles
+            new OutputStreamWriter(System.out),
+            fileManager,
+            new DiagnosticLoggingListener("COMPILER"),
+            Arrays.asList("-d", classFilesFolderName),
+            classesNames,
+            javaFiles
         ).call();
         fileManager.close();
         return success;
     }
 
-    public Boolean compileGeneratedSourceFiles(List<String> classesNames, File... files) throws IOException {
+    public Boolean compileGeneratedSourceFiles(List<String> classesNames, File... files)
+        throws IOException {
         return compileGeneratedSourceFiles(classesNames, Arrays.asList(files));
     }
 
@@ -80,17 +85,25 @@ class CompilerService {
         public void report(Diagnostic<? extends JavaFileObject> diagnostic) {
             switch (diagnostic.getKind()) {
                 case ERROR:
-                    LOG.error("[{}] {} {} at {}:{}", label, diagnostic.getCode(), diagnostic.getMessage(DEFAULT_LOCALE), diagnostic.getSource().getName(), diagnostic.getLineNumber());
+                    LOG.error("[{}] {} {} at {}:{}", label, diagnostic.getCode(),
+                        diagnostic.getMessage(DEFAULT_LOCALE), diagnostic.getSource().getName(),
+                        diagnostic.getLineNumber());
                     break;
                 case WARNING:
                 case MANDATORY_WARNING:
-                    LOG.warn("[{}] {} {} at {}:{}", label, diagnostic.getCode(), diagnostic.getMessage(DEFAULT_LOCALE), diagnostic.getSource().getName(), diagnostic.getLineNumber());
+                    LOG.warn("[{}] {} {} at {}:{}", label, diagnostic.getCode(),
+                        diagnostic.getMessage(DEFAULT_LOCALE), diagnostic.getSource().getName(),
+                        diagnostic.getLineNumber());
                     break;
                 case NOTE:
-                    LOG.info("[{}] {} {} at {}:{}", label, diagnostic.getCode(), diagnostic.getMessage(DEFAULT_LOCALE), diagnostic.getSource().getName(), diagnostic.getLineNumber());
+                    LOG.info("[{}] {} {} at {}:{}", label, diagnostic.getCode(),
+                        diagnostic.getMessage(DEFAULT_LOCALE), diagnostic.getSource().getName(),
+                        diagnostic.getLineNumber());
                     break;
                 case OTHER:
-                    LOG.debug("[{}] {} {} at {}:{}", label, diagnostic.getCode(), diagnostic.getMessage(DEFAULT_LOCALE), diagnostic.getSource().getName(), diagnostic.getLineNumber());
+                    LOG.debug("[{}] {} {} at {}:{}", label, diagnostic.getCode(),
+                        diagnostic.getMessage(DEFAULT_LOCALE), diagnostic.getSource().getName(),
+                        diagnostic.getLineNumber());
                     break;
             }
         }

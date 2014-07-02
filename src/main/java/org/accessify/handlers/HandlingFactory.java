@@ -19,7 +19,8 @@ public class HandlingFactory {
     }
 
     public static boolean create(String instanceName, ObjectHandler... handlers) {
-        return factories.putIfAbsent(instanceName, new HandlingFactory().register(handlers)) != null;
+        return factories.putIfAbsent(instanceName, new HandlingFactory().register(handlers))
+            != null;
     }
 
     private HandlingFactory register(ObjectHandler... ohs) {

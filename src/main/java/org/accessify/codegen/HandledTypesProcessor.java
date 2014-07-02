@@ -20,13 +20,17 @@ public class HandledTypesProcessor {
      * @param compileClassDir
      * @return class names of the compile object handlers (do not return the property handlers)
      */
-    public static List<String> generateCodeAndCompile(List<Class> handledTypes, String codeGenDirectory, String compileClassDir) throws IntrospectionException, IOException {
+    public static List<String> generateCodeAndCompile(List<Class> handledTypes,
+        String codeGenDirectory, String compileClassDir)
+        throws IntrospectionException, IOException {
 
         List<VelocityContext> propertyHandlersContexts;
         VelocityContext objectHandlerContext;
         for (Class handledType : handledTypes) {
-            propertyHandlersContexts = TemplatingContextsGenerator.generatePropertyHandlersContexts(handledType);
-            objectHandlerContext = TemplatingContextsGenerator.generateObjectHandlerContext(handledType, propertyHandlersContexts);
+            propertyHandlersContexts =
+                TemplatingContextsGenerator.generatePropertyHandlersContexts(handledType);
+            objectHandlerContext = TemplatingContextsGenerator
+                .generateObjectHandlerContext(handledType, propertyHandlersContexts);
         }
 
         //TODO

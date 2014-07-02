@@ -9,22 +9,23 @@ public class AbstractPropertyHandlerTest {
 
     protected static final String PROPERTYNAME = "string";
 
-    final AbstractPropertyHandler<DummyHandledType, String> handler = new AbstractPropertyHandler<DummyHandledType, String>(PROPERTYNAME) {
-        @Override
-        public void set(DummyHandledType instance, String value) {
-            instance.setString(value);
-        }
+    final AbstractPropertyHandler<DummyHandledType, String> handler =
+        new AbstractPropertyHandler<DummyHandledType, String>(PROPERTYNAME) {
+            @Override
+            public void set(DummyHandledType instance, String value) {
+                instance.setString(value);
+            }
 
-        @Override
-        public String get(DummyHandledType instance) {
-            return instance.getString();
-        }
+            @Override
+            public String get(DummyHandledType instance) {
+                return instance.getString();
+            }
 
-        @Override
-        public Class<String> type() {
-            return String.class;
-        }
-    };
+            @Override
+            public Class<String> type() {
+                return String.class;
+            }
+        };
 
     @Test
     public void testGetting() throws Exception {

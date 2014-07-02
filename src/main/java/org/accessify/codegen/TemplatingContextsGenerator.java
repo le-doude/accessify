@@ -22,9 +22,11 @@ class TemplatingContextsGenerator {
 
     private static final Logger LOG = LoggerFactory.getLogger(TemplatingContextsGenerator.class);
 
-    public static List<VelocityContext> generatePropertyHandlersContexts(Class<?> clazz) throws IntrospectionException {
+    public static List<VelocityContext> generatePropertyHandlersContexts(Class<?> clazz)
+        throws IntrospectionException {
         if (clazz.isAnnotationPresent(HandledType.class)) {
-            PropertyDescriptor[] properties = Introspector.getBeanInfo(clazz).getPropertyDescriptors();
+            PropertyDescriptor[] properties =
+                Introspector.getBeanInfo(clazz).getPropertyDescriptors();
             ArrayList<VelocityContext> contexts = new ArrayList<>(properties.length);
             VelocityContext temp;
             LOG.debug("Found {} properties", properties.length);
@@ -44,16 +46,21 @@ class TemplatingContextsGenerator {
         }
     }
 
-    public static VelocityContext generateObjectHandlerContext(Class<?> type, List<VelocityContext> propertyHandlersContexts) {
+    public static VelocityContext generateObjectHandlerContext(Class<?> type,
+        List<VelocityContext> propertyHandlersContexts) {
         if (type.isAnnotationPresent(HandledType.class)) {
             VelocityContext context = new VelocityContext();
             context.put(ObjectHandlerTemplateFields.ENITITY_CLASS_NAME, type.getSimpleName());
-            context.put(ObjectHandlerTemplateFields.HANDLER_CLASS_NAME, String.format(ObjectHandlerTemplateFields.OBJECT_HANDLER_CLASSNAME_PATTERN, type.getSimpleName()));
+            context.put(ObjectHandlerTemplateFields.HANDLER_CLASS_NAME, String
+                .format(ObjectHandlerTemplateFields.OBJECT_HANDLER_CLASSNAME_PATTERN,
+                    type.getSimpleName()));
             context.put(ObjectHandlerTemplateFields.PACKAGE, type.getPackage().getName());
-            ArrayList<String> handlersQualifiedName = new ArrayList<>(propertyHandlersContexts.size());
+            ArrayList<String> handlersQualifiedName =
+                new ArrayList<>(propertyHandlersContexts.size());
             for (VelocityContext c : propertyHandlersContexts) {
                 //use fully qualified name
-                handlersQualifiedName.add(c.get(PropertyTemplateFields.PACKAGE) + "." + c.get(PropertyTemplateFields.HANDLER_TYPE));
+                handlersQualifiedName.add(c.get(PropertyTemplateFields.PACKAGE) + "." + c
+                    .get(PropertyTemplateFields.HANDLER_TYPE));
             }
             context.put(ObjectHandlerTemplateFields.PROPERTY_HANDLERS, handlersQualifiedName);
             return context;
@@ -69,31 +76,35 @@ class TemplatingContextsGenerator {
 
     static VelocityContext toContext(PropertyDescriptor property) {
         if (property != null && !StringUtils.equalsIgnoreCase("class", property.getName())) {
-            return toContext(property, property.getPropertyType(), property.getReadMethod(), property.getWriteMethod());
+            return toContext(property, property.getPropertyType(), property.getReadMethod(),
+                property.getWriteMethod());
         } else {
             return null;
         }
     }
 
-    static VelocityContext toContext(PropertyDescriptor property, Class<?> propertyType, Method readMethod, Method writeMethod) {
+    static VelocityContext toContext(PropertyDescriptor property, Class<?> propertyType,
+        Method readMethod, Method writeMethod) {
         if (property != null && propertyType != null && readMethod != null && writeMethod != null) {
             Class<?> declaringClass = writeMethod.getDeclaringClass();
             return toContextImpl(
-                    declaringClass.getSimpleName(),
-                    property.getName(),
-                    declaringClass.getPackage().getName(),
-                    propertyType.getSimpleName(),
-                    readMethod.getName(),
-                    writeMethod.getName()
+                declaringClass.getSimpleName(),
+                property.getName(),
+                declaringClass.getPackage().getName(),
+                propertyType.getSimpleName(),
+                readMethod.getName(),
+                writeMethod.getName()
             );
         } else {
             return null;
         }
     }
 
-    static VelocityContext toContextImpl(String enclosingClass, String name, String packageName, String typeName, String getter, String setter) {
+    static VelocityContext toContextImpl(String enclosingClass, String name, String packageName,
+        String typeName, String getter, String setter) {
         if (StringUtils.isNoneBlank(enclosingClass, name, packageName, typeName, getter, setter)) {
-            LOG.debug("{} {} {} {} {} {}", enclosingClass, name, packageName, typeName, getter, setter);
+            LOG.debug("{} {} {} {} {} {}", enclosingClass, name, packageName, typeName, getter,
+                setter);
             VelocityContext context = new VelocityContext();
             context.put(PropertyTemplateFields.PROPERTY, name);
             context.put(PropertyTemplateFields.GETTER, getter);
@@ -101,7 +112,9 @@ class TemplatingContextsGenerator {
             context.put(PropertyTemplateFields.VALUE, typeName);
             context.put(PropertyTemplateFields.ENTITY, enclosingClass);
             context.put(PropertyTemplateFields.PACKAGE, packageName);
-            context.put(PropertyTemplateFields.HANDLER_TYPE, String.format(PropertyTemplateFields.PROPERTY_HANDLER_CLASSNAME_PATTERN, name, enclosingClass));
+            context.put(PropertyTemplateFields.HANDLER_TYPE, String
+                .format(PropertyTemplateFields.PROPERTY_HANDLER_CLASSNAME_PATTERN, name,
+                    enclosingClass));
             return context;
         } else {
             LOG.debug("At least one necessary is blank.");

@@ -25,7 +25,18 @@ public class ExperimentOne {
     static final String GENERATED_CODE_FOLDER = "src/test/java";
     static final String GENERATED_CLASS_FILES_FOLDER = "target/classes";
 
-//    @Test
+    private static File makeDirIfNotExists(String dir) {
+        File codeGenDir = new File(dir);
+        if (!codeGenDir.exists()) {
+            try {
+                codeGenDir.mkdirs();
+            } catch (Exception ignored) {
+            }
+        }
+        return codeGenDir;
+    }
+
+    //    @Test
     public void testName() throws Exception {
 
 
@@ -34,7 +45,8 @@ public class ExperimentOne {
         Map<String, String> settersNAme = new HashMap<>();
         for (Method setter : methods) {
             if (setter.isAnnotationPresent(Property.Setter.class)) {
-                settersNAme.put(setter.getAnnotation(Property.Setter.class).name(), setter.getName());
+                settersNAme
+                    .put(setter.getAnnotation(Property.Setter.class).name(), setter.getName());
             }
         }
         ArrayList<PropertyInfo> infos = new ArrayList<>();
@@ -84,8 +96,10 @@ public class ExperimentOne {
 
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
-        Iterable<? extends JavaFileObject> javaFiles = fileManager.getJavaFileObjectsFromFiles(files);
-        compiler.getTask(null, fileManager, null, Arrays.asList("-d", GENERATED_CLASS_FILES_FOLDER), null, javaFiles).call();
+        Iterable<? extends JavaFileObject> javaFiles =
+            fileManager.getJavaFileObjectsFromFiles(files);
+        compiler.getTask(null, fileManager, null, Arrays.asList("-d", GENERATED_CLASS_FILES_FOLDER),
+            null, javaFiles).call();
         fileManager.close();
 
         //NOW we test the generated property handlers
@@ -95,33 +109,22 @@ public class ExperimentOne {
         instance.setInteger(15);
         instance.setString("The quick fox jumps over the lazy dog.");
 
-//        base.boolTestEntityHandler handler1 = new base.boolTestEntityHandler();
-//
-//        assertTrue(handler1.get(instance));
-//        handler1.set(instance, false);
-//        assertFalse(handler1.get(instance));
-//
-//        base.integerTestEntityHandler handler2 = new base.integerTestEntityHandler();
-//
-//        assertEquals(15, handler2.get(instance).intValue());
-//        handler2.set(instance, 150);
-//        assertEquals(150, handler2.get(instance).intValue());
-//
-//        base.stringTestEntityHandler handler3 = new base.stringTestEntityHandler();
-//        assertEquals("The quick fox jumps over the lazy dog.", handler3.get(instance));
-//        handler3.set(instance, "I shot a man in Reno and I can't tell you why.");
-//        assertEquals("I shot a man in Reno and I can't tell you why.", handler3.get(instance));
-    }
-
-    private static File makeDirIfNotExists(String dir) {
-        File codeGenDir = new File(dir);
-        if (!codeGenDir.exists()) {
-            try {
-                codeGenDir.mkdirs();
-            } catch (Exception ignored) {
-            }
-        }
-        return codeGenDir;
+        //        base.boolTestEntityHandler handler1 = new base.boolTestEntityHandler();
+        //
+        //        assertTrue(handler1.get(instance));
+        //        handler1.set(instance, false);
+        //        assertFalse(handler1.get(instance));
+        //
+        //        base.integerTestEntityHandler handler2 = new base.integerTestEntityHandler();
+        //
+        //        assertEquals(15, handler2.get(instance).intValue());
+        //        handler2.set(instance, 150);
+        //        assertEquals(150, handler2.get(instance).intValue());
+        //
+        //        base.stringTestEntityHandler handler3 = new base.stringTestEntityHandler();
+        //        assertEquals("The quick fox jumps over the lazy dog.", handler3.get(instance));
+        //        handler3.set(instance, "I shot a man in Reno and I can't tell you why.");
+        //        assertEquals("I shot a man in Reno and I can't tell you why.", handler3.get(instance));
     }
 
 

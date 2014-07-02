@@ -3,6 +3,7 @@ package org.accessify.processor;
 import org.accessify.annotations.HandledType;
 import org.accessify.codegen.HandledTypesProcessor;
 import org.accessify.utils.ConfigurationUtils;
+import org.apache.commons.collections.CollectionUtils;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
@@ -13,6 +14,7 @@ import java.beans.IntrospectionException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,8 +33,18 @@ public class MavenAnnotationProcessor extends AbstractProcessor {
         }
     }
 
-    private boolean processImpl(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) throws ClassNotFoundException, IntrospectionException, IOException {
-        return HandledTypesProcessor.generateCodeAndCompile(getAllHandledTypes(roundEnv), ConfigurationUtils.CODE_GEN_DIR, ConfigurationUtils.CLASS_FILE_DIR);
+    private boolean processImpl(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv)
+        throws ClassNotFoundException, IntrospectionException, IOException {
+        List<String> strings = HandledTypesProcessor
+            .generateCodeAndCompile(
+                getAllHandledTypes(roundEnv),
+                ConfigurationUtils.CODE_GEN_DIR,
+                ConfigurationUtils.CLASS_FILE_DIR
+            );
+
+        //TODO: register classes in the HandlingFactory
+
+        return CollectionUtils.isNotEmpty(strings);
     }
 
     private ArrayList<Class> getAllHandledTypes(RoundEnvironment roundEnv) {
@@ -43,14 +55,9 @@ public class MavenAnnotationProcessor extends AbstractProcessor {
         for (Element element : elements) {
             if (element.getKind().isClass()) {
                 className = elementUtils.getBinaryName((TypeElement) element).toString();
-                Class<?> clazz = null;
                 try {
-                    clazz = Class.forName(className);
-                } catch (ClassNotFoundException e) {
-                    clazz = null;
-                }
-                if (clazz != null) {
-                    handledTypes.add(clazz);
+                    handledTypes.add(Class.forName(className));
+                } catch (ClassNotFoundException ignored) {
                 }
             }
         }

@@ -17,13 +17,13 @@ import static org.junit.Assert.assertTrue;
 
 public class CodeTemplateServiceTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CodeGenService.class);
-
     static final String GENERATED_CODE_FOLDER = "generated/src/test/java";
+    private static final Logger LOG = LoggerFactory.getLogger(CodeGenService.class);
 
     @Test
     public void testOne() throws Exception {
-        List<VelocityContext> contexts = TemplatingContextsGenerator.generatePropertyHandlersContexts(DummyHandledType.class);
+        List<VelocityContext> contexts =
+            TemplatingContextsGenerator.generatePropertyHandlersContexts(DummyHandledType.class);
         VelocityContext context = contexts.get(0);
 
         StringWriter writer = new StringWriter();
@@ -40,15 +40,17 @@ public class CodeTemplateServiceTest {
     @Test
     public void testWithCompile() throws Exception {
         File dir = FilesUtils.makeDirIfNotExists(GENERATED_CODE_FOLDER);
-        List<VelocityContext> contexts = TemplatingContextsGenerator.generatePropertyHandlersContexts(DummyHandledType.class);
+        List<VelocityContext> contexts =
+            TemplatingContextsGenerator.generatePropertyHandlersContexts(DummyHandledType.class);
         VelocityContext context = contexts.get(0);
-        File tempFile = new File(dir, context.internalGet(PropertyTemplateFields.HANDLER_TYPE) + ".java");
+        File tempFile =
+            new File(dir, context.internalGet(PropertyTemplateFields.HANDLER_TYPE) + ".java");
         FileWriter writer = new FileWriter(tempFile);
         CodeGenService service = new CodeGenService();
         service.writePropertyHandler(context, writer);
         writer.close();
         assertTrue(CompilerService.compileGeneratedSourceFiles(tempFile));
-//        tempFile.delete();
-//        dir.delete();
+        //        tempFile.delete();
+        //        dir.delete();
     }
 }
