@@ -1,6 +1,9 @@
 Accessify
 =========
 
+###THIS IS NOT IN A WORKING STATE!!!
+###DO NOT TRY TO USE!!!!
+
 Goals
 -----
 
