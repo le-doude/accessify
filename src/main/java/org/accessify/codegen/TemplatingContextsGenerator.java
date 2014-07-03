@@ -114,13 +114,13 @@ class TemplatingContextsGenerator {
             LOG.debug("{} {} {} {} {} {}", enclosingClass, name, packageName, typeName, getter,
                 setter);
             VelocityContext context = new VelocityContext();
-            context.put(PropertyTemplateFields.PROPERTY, name);
-            context.put(PropertyTemplateFields.GETTER, getter);
-            context.put(PropertyTemplateFields.SETTER, setter);
-            context.put(PropertyTemplateFields.VALUE, typeName);
-            context.put(PropertyTemplateFields.ENTITY, enclosingClass);
-            context.put(PropertyTemplateFields.PACKAGE, packageName);
-            context.put(PropertyTemplateFields.HANDLER_TYPE, String
+            context.put(PropertyTemplateFields.PROPERTY.getName(), name);
+            context.put(PropertyTemplateFields.GETTER.getName(), getter);
+            context.put(PropertyTemplateFields.SETTER.getName(), setter);
+            context.put(PropertyTemplateFields.VALUE.getName(), typeName);
+            context.put(PropertyTemplateFields.ENTITY.getName(), enclosingClass);
+            context.put(PropertyTemplateFields.PACKAGE.getName(), packageName);
+            context.put(PropertyTemplateFields.HANDLER_TYPE.getName(), String
                 .format(PropertyTemplateFields.PROPERTY_HANDLER_CLASSNAME_PATTERN, name,
                     enclosingClass));
             return context;
