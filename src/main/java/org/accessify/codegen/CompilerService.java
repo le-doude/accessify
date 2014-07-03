@@ -24,9 +24,19 @@ class CompilerService {
     static final String GENERATED_CLASS_FILES_FOLDER = "target/classes";
 
     final String classFilesFolderName;
+    private final JavaCompiler compiler;
+    private StandardJavaFileManager fileManager;
 
     public CompilerService(String classFilesFolderName) {
         this.classFilesFolderName = classFilesFolderName;
+        compiler = ToolProvider.getSystemJavaCompiler();
+        initFileManager();
+    }
+
+    private void initFileManager() {
+        fileManager = compiler
+            .getStandardFileManager(new DiagnosticLoggingListener("FILE_MANAGER"), DEFAULT_LOCALE,
+                Charset.defaultCharset());
     }
 
     public CompilerService() {
@@ -42,10 +52,7 @@ class CompilerService {
      */
     public Boolean compileGeneratedSourceFiles(List<String> classesNames, List<File> files)
         throws IOException {
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        StandardJavaFileManager fileManager = compiler
-            .getStandardFileManager(new DiagnosticLoggingListener("FILE_MANAGER"), DEFAULT_LOCALE,
-                Charset.defaultCharset());
+
         Iterable<? extends JavaFileObject> javaFiles =
             fileManager.getJavaFileObjectsFromFiles(files);
         Boolean success = compiler.getTask(
@@ -57,7 +64,12 @@ class CompilerService {
             javaFiles
         ).call();
         fileManager.close();
+        initFileManager();
         return success;
+    }
+
+    public ClassLoader classLoader(){
+        return fileManager.getClassLoader(null);
     }
 
     public Boolean compileGeneratedSourceFiles(List<String> classesNames, File... files)
