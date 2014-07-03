@@ -1,9 +1,7 @@
 package org.accessify.codegen;
 
-import org.accessify.codegen.fields.ObjectHandlerTemplateFields;
+import org.accessify.codegen.fields.ObjectHandlerFields;
 import org.accessify.codegen.fields.PropertyTemplateFields;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -12,6 +10,9 @@ import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
 import java.util.Properties;
+
+import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.isNoneBlank;
 
 /**
  * Created by edouard on 14/06/16.
@@ -38,7 +39,7 @@ class CodeGenService {
 
     public void writePropertyHandler(VelocityContext context, Writer codeWriter)
         throws IOException {
-        if (StringUtils.isNoneBlank(
+        if (isNoneBlank(
             (String) context.get(PropertyTemplateFields.ENTITY),
             (String) context.get(PropertyTemplateFields.GETTER),
             (String) context.get(PropertyTemplateFields.SETTER),
@@ -54,12 +55,12 @@ class CodeGenService {
     }
 
     public void writeObjectHandler(VelocityContext context, Writer codeWriter) throws IOException {
-        if (StringUtils.isNoneBlank(
-            (String) context.get(ObjectHandlerTemplateFields.ENITITY_CLASS_NAME),
-            (String) context.get(ObjectHandlerTemplateFields.HANDLER_CLASS_NAME),
-            (String) context.get(ObjectHandlerTemplateFields.PACKAGE)
-        ) && CollectionUtils.isNotEmpty(
-            (java.util.Collection) context.get(ObjectHandlerTemplateFields.PROPERTY_HANDLERS))) {
+        if (isNoneBlank(
+            (String) context.get(ObjectHandlerFields.ENITITY_CLASS_NAME),
+            (String) context.get(ObjectHandlerFields.HANDLER_CLASS_NAME),
+            (String) context.get(ObjectHandlerFields.PACKAGE)
+        ) && isNotEmpty(
+            (java.util.Collection) context.get(ObjectHandlerFields.PROPERTY_HANDLERS))) {
             objectHandlerTemplate.merge(context, codeWriter);
             codeWriter.flush();
         } else {

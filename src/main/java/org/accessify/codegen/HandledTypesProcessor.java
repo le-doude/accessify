@@ -1,6 +1,6 @@
 package org.accessify.codegen;
 
-import org.accessify.codegen.fields.ObjectHandlerTemplateFields;
+import org.accessify.codegen.fields.ObjectHandlerFields;
 import org.accessify.codegen.fields.PropertyTemplateFields;
 import org.accessify.handlers.HandlingFactory;
 import org.accessify.handlers.ObjectHandler;
@@ -70,7 +70,7 @@ public class HandledTypesProcessor {
                 classes.add(className);
             }
             className =
-                (String) objectHandlerContext.get(ObjectHandlerTemplateFields.HANDLER_CLASS_NAME);
+                (String) objectHandlerContext.get(ObjectHandlerFields.HANDLER_CLASS_NAME);
             fileName = className + ".java";
             temp = new File(sourceDirectory, fileName);
             codeGenService.writeObjectHandler(objectHandlerContext, new FileWriter(

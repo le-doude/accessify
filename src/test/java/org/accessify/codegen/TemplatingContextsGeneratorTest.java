@@ -3,7 +3,7 @@ package org.accessify.codegen;
 import base.DummyHandledType;
 import base.DummyHandledTypeOneProperty;
 import base.DummyNonHandledType;
-import org.accessify.codegen.fields.ObjectHandlerTemplateFields;
+import org.accessify.codegen.fields.ObjectHandlerFields;
 import org.accessify.codegen.fields.PropertyTemplateFields;
 import org.accessify.utils.ContextDebugUtil;
 import org.apache.velocity.VelocityContext;
@@ -82,10 +82,10 @@ public class TemplatingContextsGeneratorTest {
         VelocityContext context = TemplatingContextsGenerator.generateObjectHandlerContext(type,
             TemplatingContextsGenerator.generatePropertyHandlersContexts(type));
         assertNotNull(context);
-        assertTrue(context.containsKey(ObjectHandlerTemplateFields.PACKAGE));
-        assertTrue(context.containsKey(ObjectHandlerTemplateFields.PROPERTY_HANDLERS));
-        assertTrue(context.containsKey(ObjectHandlerTemplateFields.HANDLER_CLASS_NAME));
-        assertTrue(context.containsKey(ObjectHandlerTemplateFields.ENITITY_CLASS_NAME));
+        assertTrue(context.containsKey(ObjectHandlerFields.PACKAGE));
+        assertTrue(context.containsKey(ObjectHandlerFields.PROPERTY_HANDLERS));
+        assertTrue(context.containsKey(ObjectHandlerFields.HANDLER_CLASS_NAME));
+        assertTrue(context.containsKey(ObjectHandlerFields.ENITITY_CLASS_NAME));
         LOG.debug(ContextDebugUtil.toString(context));
     }
 

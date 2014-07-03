@@ -1,7 +1,7 @@
 package org.accessify.codegen;
 
 import org.accessify.annotations.HandledType;
-import org.accessify.codegen.fields.ObjectHandlerTemplateFields;
+import org.accessify.codegen.fields.ObjectHandlerFields;
 import org.accessify.codegen.fields.PropertyTemplateFields;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
@@ -52,19 +52,25 @@ class TemplatingContextsGenerator {
         List<VelocityContext> propertyHandlersContexts) {
         if (type.isAnnotationPresent(HandledType.class)) {
             VelocityContext context = new VelocityContext();
-            context.put(ObjectHandlerTemplateFields.ENITITY_CLASS_NAME, type.getSimpleName());
-            context.put(ObjectHandlerTemplateFields.HANDLER_CLASS_NAME, String
-                .format(ObjectHandlerTemplateFields.OBJECT_HANDLER_CLASSNAME_PATTERN,
-                    type.getSimpleName()));
-            context.put(ObjectHandlerTemplateFields.PACKAGE, type.getPackage().getName());
-            ArrayList<String> handlersQualifiedName =
-                new ArrayList<>(propertyHandlersContexts.size());
-            for (VelocityContext c : propertyHandlersContexts) {
-                //use fully qualified name
-                handlersQualifiedName.add(c.get(PropertyTemplateFields.PACKAGE) + "." + c
-                    .get(PropertyTemplateFields.HANDLER_TYPE));
+            //            context.put(ObjectHandlerTemplateFields.ENITITY_CLASS_NAME, type.getSimpleName());
+            //            context.put(ObjectHandlerTemplateFields.HANDLER_CLASS_NAME, String
+            //                .format(ObjectHandlerTemplateFields.OBJECT_HANDLER_CLASSNAME_PATTERN,
+            //                    type.getSimpleName()));
+            //            context.put(ObjectHandlerTemplateFields.PACKAGE, type.getPackage().getName());
+            //
+            //
+            //            ArrayList<String> handlersQualifiedName =
+            //                new ArrayList<>(propertyHandlersContexts.size());
+            //            for (VelocityContext c : propertyHandlersContexts) {
+            //                //use fully qualified name
+            //                handlersQualifiedName.add(c.get(PropertyTemplateFields.PACKAGE) + "." + c
+            //                    .get(PropertyTemplateFields.HANDLER_TYPE));
+            //            }
+            //            context.put(ObjectHandlerTemplateFields.PROPERTY_HANDLERS, handlersQualifiedName);
+
+            for (ObjectHandlerFields ohtf : ObjectHandlerFields.values()) {
+                ohtf.writeToContext(context, type);
             }
-            context.put(ObjectHandlerTemplateFields.PROPERTY_HANDLERS, handlersQualifiedName);
             return context;
         } else {
             return null;
