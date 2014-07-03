@@ -3,6 +3,8 @@ package org.accessify.codegen;
 import base.DummyHandledType;
 import base.DummyHandledTypeOneProperty;
 import base.DummyNonHandledType;
+import org.accessify.codegen.fields.ObjectHandlerTemplateFields;
+import org.accessify.codegen.fields.PropertyTemplateFields;
 import org.accessify.utils.ContextDebugUtil;
 import org.apache.velocity.VelocityContext;
 import org.junit.Test;

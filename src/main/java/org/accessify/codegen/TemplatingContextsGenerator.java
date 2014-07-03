@@ -1,6 +1,8 @@
 package org.accessify.codegen;
 
 import org.accessify.annotations.HandledType;
+import org.accessify.codegen.fields.ObjectHandlerTemplateFields;
+import org.accessify.codegen.fields.PropertyTemplateFields;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;

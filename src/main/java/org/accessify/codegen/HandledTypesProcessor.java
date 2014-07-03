@@ -1,5 +1,7 @@
 package org.accessify.codegen;
 
+import org.accessify.codegen.fields.ObjectHandlerTemplateFields;
+import org.accessify.codegen.fields.PropertyTemplateFields;
 import org.accessify.handlers.HandlingFactory;
 import org.accessify.handlers.ObjectHandler;
 import org.accessify.utils.ConfigurationUtils;

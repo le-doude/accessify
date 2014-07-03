@@ -1,5 +1,7 @@
 package org.accessify.codegen;
 
+import org.accessify.codegen.fields.ObjectHandlerTemplateFields;
+import org.accessify.codegen.fields.PropertyTemplateFields;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.Template;
