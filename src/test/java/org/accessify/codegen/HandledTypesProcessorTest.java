@@ -32,6 +32,7 @@ public class HandledTypesProcessorTest {
         String string = RandomStringUtils.randomAlphanumeric(15);
 
         DummyHandledType example = new DummyHandledType();
+
         handler.set(example, "bool", bool);
         handler.set(example, "integer", integer);
         handler.set(example, "string", string);

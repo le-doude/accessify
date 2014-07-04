@@ -67,10 +67,6 @@ class CompilerService {
         return success;
     }
 
-    public ClassLoader classLoader() {
-        return ToolProvider.getSystemToolClassLoader();
-    }
-
     public Boolean compileGeneratedSourceFiles(List<String> classesNames, File... files)
         throws IOException {
         return compileGeneratedSourceFiles(classesNames, Arrays.asList(files));

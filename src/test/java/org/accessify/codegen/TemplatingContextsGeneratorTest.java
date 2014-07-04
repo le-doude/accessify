@@ -79,8 +79,7 @@ public class TemplatingContextsGeneratorTest {
     @Test
     public void testObjectHandler() throws Exception {
         Class<DummyHandledType> type = DummyHandledType.class;
-        VelocityContext context = TemplatingContextsGenerator.generateObjectHandlerContext(type,
-            TemplatingContextsGenerator.generatePropertyHandlersContexts(type));
+        VelocityContext context = TemplatingContextsGenerator.generateObjectHandlerContext(type);
         assertNotNull(context);
         assertTrue(context.containsKey(ObjectHandlerFields.PACKAGE));
         assertTrue(context.containsKey(ObjectHandlerFields.PROPERTY_HANDLERS));
@@ -92,8 +91,7 @@ public class TemplatingContextsGeneratorTest {
     @Test
     public void testName() throws Exception {
         Class<DummyNonHandledType> type = DummyNonHandledType.class;
-        VelocityContext context = TemplatingContextsGenerator.generateObjectHandlerContext(type,
-            TemplatingContextsGenerator.generatePropertyHandlersContexts(type));
+        VelocityContext context = TemplatingContextsGenerator.generateObjectHandlerContext(type);
         assertNull(context);
     }
 }

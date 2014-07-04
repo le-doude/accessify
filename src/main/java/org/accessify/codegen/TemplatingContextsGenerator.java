@@ -46,8 +46,7 @@ class TemplatingContextsGenerator {
         }
     }
 
-    public static VelocityContext generateObjectHandlerContext(Class<?> type,
-        List<VelocityContext> propertyHandlersContexts) {
+    public static VelocityContext generateObjectHandlerContext(Class<?> type) {
         if (type.isAnnotationPresent(HandledType.class)) {
             VelocityContext context = new VelocityContext();
             for (ObjectHandlerFields ohtf : ObjectHandlerFields.values()) {
@@ -61,7 +60,7 @@ class TemplatingContextsGenerator {
 
     private static void addToEmbeddedHandlers(PropertyDescriptor property) {
         //TODO
-//        throw new NotImplementedException("addToEmbeddedHandlers");
+        //        throw new NotImplementedException("addToEmbeddedHandlers");
     }
 
     public static VelocityContext toContext(PropertyDescriptor property) {

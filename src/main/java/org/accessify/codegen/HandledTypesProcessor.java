@@ -9,6 +9,7 @@ import org.accessify.utils.FilesUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.velocity.VelocityContext;
 
+import javax.tools.ToolProvider;
 import java.beans.IntrospectionException;
 import java.io.File;
 import java.io.FileWriter;
@@ -50,8 +51,7 @@ public class HandledTypesProcessor {
         //TODO: Get rid of this ugly code!!!!
         for (Class handledType : handledTypes) {
             propertyHandlersContexts = generatePropertyHandlersContexts(handledType);
-            objectHandlerContext = generateObjectHandlerContext(handledType,
-                propertyHandlersContexts);
+            objectHandlerContext = generateObjectHandlerContext(handledType);
 
             String fileName;
             String className;
@@ -84,20 +84,14 @@ public class HandledTypesProcessor {
             typeHandlersClasses.add(className);
         }
 
+
         ArrayList<Class> clazzes = new ArrayList<>();
-//        if () {
-        //            ClassLoader classLoader = service.classLoader();
-        //            for (String name : propertyHandlersClasses) {
-        //                try {
-        //                    classLoader.loadClass(name);
-        //                } catch (ClassNotFoundException e) {
-        //                    throw new RuntimeException(e);
-        //                }
-        //
-        //            }
-        //        }
-        if (service.compileGeneratedSourceFiles(propertyHandlersFiles) && service.compileGeneratedSourceFiles(typeHandlersFiles)) {
-            ClassLoader classLoader = service.classLoader();
+        //if compiles are successfull
+        if (service.compileGeneratedSourceFiles(propertyHandlersFiles) && service
+            .compileGeneratedSourceFiles(typeHandlersFiles)) {
+
+            ClassLoader classLoader = ToolProvider.getSystemToolClassLoader();
+            //Load all ObjectHandler classes compiled
             for (String name : typeHandlersClasses) {
                 try {
                     clazzes.add(classLoader.loadClass(name));
@@ -107,7 +101,7 @@ public class HandledTypesProcessor {
 
             }
         }
-        return clazzes;
+        return clazzes; //return only objectHandler classes.
     }
 
     /**
