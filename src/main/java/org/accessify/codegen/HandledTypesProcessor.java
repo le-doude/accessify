@@ -24,11 +24,7 @@ import static org.accessify.codegen.TemplatingContextsGenerator.generateProperty
  */
 public class HandledTypesProcessor {
 
-    private static CompilerService service;
-
-    public HandledTypesProcessor() {
-        service = new CompilerService();
-    }
+    private static CompilerService service = new CompilerService();
 
     /**
      * Create code and compile it from the information provided by the handledTypes
@@ -47,8 +43,9 @@ public class HandledTypesProcessor {
 
         List<VelocityContext> propertyHandlersContexts;
         VelocityContext objectHandlerContext;
-        ArrayList<File> files = new ArrayList<>();
-        ArrayList<String> classes = new ArrayList<>();
+        ArrayList<File> propertyHandlersFiles = new ArrayList<>();
+        ArrayList<File> typeHandlersFiles = new ArrayList<>();
+        ArrayList<String> propertyHandlersClasses = new ArrayList<>();
         ArrayList<String> typeHandlersClasses = new ArrayList<>();
         //TODO: Get rid of this ugly code!!!!
         for (Class handledType : handledTypes) {
@@ -60,31 +57,50 @@ public class HandledTypesProcessor {
             String className;
             File temp;
             for (VelocityContext phc : propertyHandlersContexts) {
-                className = (String) phc.get(PropertyTemplateFields.HANDLER_TYPE);
+                className = (String) phc.get(PropertyTemplateFields.HANDLER_TYPE.getElement());
                 fileName = className + ".java";
-                temp = new File(sourceDirectory,
-                    fileName);
-                codeGenService.writePropertyHandler(phc, new FileWriter(
-                    temp));
-                files.add(temp);
-                classes.add(className);
+                temp = new File(sourceDirectory, fileName);
+                try (FileWriter writer = new FileWriter(temp)) {
+                    codeGenService.writePropertyHandler(phc, writer);
+                    writer.flush();
+                }
+                propertyHandlersFiles.add(temp);
+                propertyHandlersClasses.add(className);
             }
-            className =
-                (String) objectHandlerContext.get(ObjectHandlerFields.HANDLER_CLASS_NAME);
-            fileName = className + ".java";
+
+            className = objectHandlerContext
+                .get(ObjectHandlerFields.PACKAGE.getElement())
+                + "." + objectHandlerContext
+                .get(ObjectHandlerFields.HANDLER_CLASS_NAME.getElement());
+
+            fileName = objectHandlerContext
+                .get(ObjectHandlerFields.HANDLER_CLASS_NAME.getElement()) + ".java";
+
             temp = new File(sourceDirectory, fileName);
+
             codeGenService.writeObjectHandler(objectHandlerContext, new FileWriter(
                 temp));
-            files.add(temp);
-            classes.add(className);
+            typeHandlersFiles.add(temp);
             typeHandlersClasses.add(className);
         }
+
         ArrayList<Class> clazzes = new ArrayList<>();
-        if (service.compileGeneratedSourceFiles(classes, files)) {
+//        if () {
+        //            ClassLoader classLoader = service.classLoader();
+        //            for (String name : propertyHandlersClasses) {
+        //                try {
+        //                    classLoader.loadClass(name);
+        //                } catch (ClassNotFoundException e) {
+        //                    throw new RuntimeException(e);
+        //                }
+        //
+        //            }
+        //        }
+        if (service.compileGeneratedSourceFiles(propertyHandlersFiles) && service.compileGeneratedSourceFiles(typeHandlersFiles)) {
             ClassLoader classLoader = service.classLoader();
-            for (String thc : typeHandlersClasses) {
+            for (String name : typeHandlersClasses) {
                 try {
-                    clazzes.add(classLoader.loadClass(thc));
+                    clazzes.add(classLoader.loadClass(name));
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
@@ -97,18 +113,19 @@ public class HandledTypesProcessor {
     /**
      * This is the main function of this project.
      * Get all handled types and generate, compile, and register handlers for them.
+     *
      * @param allHandledTypes
-     * @return  true if all went well
+     * @return true if all went well
      * @throws IntrospectionException
      * @throws IOException
      */
-    public static boolean fullyProcessHandledTypes(ArrayList<Class> allHandledTypes)
+    public static boolean fullyProcessHandledTypes(List<Class> allHandledTypes)
         throws IntrospectionException, IOException {
         ArrayList<Class> clazzs = generateCodeAndCompile(
-                allHandledTypes,
-                ConfigurationUtils.CODE_GEN_DIR,
-                ConfigurationUtils.CLASS_FILE_DIR
-            );
+            allHandledTypes,
+            ConfigurationUtils.CODE_GEN_DIR,
+            ConfigurationUtils.CLASS_FILE_DIR
+        );
 
         ArrayList<ObjectHandler> handlers = new ArrayList<>(clazzs.size());
         for (Class clazz : clazzs) {

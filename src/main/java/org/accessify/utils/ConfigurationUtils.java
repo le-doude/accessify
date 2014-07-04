@@ -5,8 +5,8 @@ package org.accessify.utils;
  */
 public class ConfigurationUtils {
 
-    public static final String CODE_GEN_DIR = ""; //TODO
-    public static final String CLASS_FILE_DIR = ""; //TODO
-    public static final String FACTORY_INSTANCE_NAME = "";//TODO
+    public static final String CODE_GEN_DIR = "target/generated-sources/java"; //TODO
+    public static final String CLASS_FILE_DIR = "target/classes/generated"; //TODO
+    public static final String FACTORY_INSTANCE_NAME = "ELVIS";//TODO
 
 }

@@ -40,12 +40,12 @@ class CodeGenService {
     public void writePropertyHandler(VelocityContext context, Writer codeWriter)
         throws IOException {
         if (isNoneBlank(
-            (String) context.get(PropertyTemplateFields.ENTITY),
-            (String) context.get(PropertyTemplateFields.GETTER),
-            (String) context.get(PropertyTemplateFields.SETTER),
-            (String) context.get(PropertyTemplateFields.HANDLER_TYPE),
-            (String) context.get(PropertyTemplateFields.PROPERTY),
-            (String) context.get(PropertyTemplateFields.VALUE)
+            (String) context.get(PropertyTemplateFields.HANDLED_TYPE_NAME.getElement()),
+            (String) context.get(PropertyTemplateFields.GETTER.getElement()),
+            (String) context.get(PropertyTemplateFields.SETTER.getElement()),
+            (String) context.get(PropertyTemplateFields.HANDLER_TYPE.getElement()),
+            (String) context.get(PropertyTemplateFields.PROPERTY.getElement()),
+            (String) context.get(PropertyTemplateFields.PROPERTY_RETURN_TYPE.getElement())
         )) {
             propertyHandlerTemplate.merge(context, codeWriter);
             codeWriter.flush();
@@ -56,11 +56,11 @@ class CodeGenService {
 
     public void writeObjectHandler(VelocityContext context, Writer codeWriter) throws IOException {
         if (isNoneBlank(
-            (String) context.get(ObjectHandlerFields.ENITITY_CLASS_NAME),
-            (String) context.get(ObjectHandlerFields.HANDLER_CLASS_NAME),
-            (String) context.get(ObjectHandlerFields.PACKAGE)
+            (String) context.get(ObjectHandlerFields.ENITITY_CLASS_NAME.getElement()),
+            (String) context.get(ObjectHandlerFields.HANDLER_CLASS_NAME.getElement()),
+            (String) context.get(ObjectHandlerFields.PACKAGE.getElement())
         ) && isNotEmpty(
-            (java.util.Collection) context.get(ObjectHandlerFields.PROPERTY_HANDLERS))) {
+            (java.util.Collection) context.get(ObjectHandlerFields.PROPERTY_HANDLERS.getElement()))) {
             objectHandlerTemplate.merge(context, codeWriter);
             codeWriter.flush();
         } else {

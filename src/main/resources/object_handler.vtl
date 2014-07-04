@@ -1,19 +1,26 @@
-package ${package}
+package ${package};
 
-import org.accessify.handlers.BasePOJOPropertiesHandler;
+import org.accessify.handlers.AbstractObjectHandler;
+#foreach($propertyHandler in $propertyHandlers)
+import ${package}.${propertyHandler};
+#end
 
-public class ${handlerClassName} extends BasePOJOPropertiesHandler<${enitityClassName}> {
+public class ${handlerClassName} extends AbstractObjectHandler<${enitityClassName}> {
 
     public ${handlerClassName}() {
         super(
-            #foreach($propertyHandler in $propertyHandlers)
-                new ${propertyHandler}(),
-            #end
-            null
+        #foreach($propertyHandler in $propertyHandlers)
+        new ${propertyHandler}(),
+        #end
+        null
         );
     }
 
     public Class<${enitityClassName}> handledType(){
         return ${enitityClassName}.class;
+    }
+
+    public ${enitityClassName} newInstance(){
+        return new ${enitityClassName}();
     }
 }

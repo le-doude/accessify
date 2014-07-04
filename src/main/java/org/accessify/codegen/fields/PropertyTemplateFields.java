@@ -1,5 +1,7 @@
 package org.accessify.codegen.fields;
 
+import org.apache.velocity.VelocityContext;
+
 import java.beans.PropertyDescriptor;
 
 /**
@@ -14,7 +16,7 @@ public enum PropertyTemplateFields {
                 null);
         }
     },
-    ENTITY("entity") {
+    HANDLED_TYPE_NAME("handledTypeName") {
         @Override protected String extractFieldValue(PropertyDescriptor property) {
             return (property.getWriteMethod() != null ?
                 property.getWriteMethod().getDeclaringClass().getSimpleName() :
@@ -25,11 +27,11 @@ public enum PropertyTemplateFields {
         @Override protected String extractFieldValue(PropertyDescriptor property) {
             return String
                 .format(PropertyTemplateFields.PROPERTY_HANDLER_CLASSNAME_PATTERN,
-                    PACKAGE.extractFieldValue(property),
-                    ENTITY.extractFieldValue(property));
+                    PROPERTY.extractFieldValue(property),
+                    HANDLED_TYPE_NAME.extractFieldValue(property));
         }
     },
-    VALUE("value") {
+    PROPERTY_RETURN_TYPE("propertyReturnType") {
         @Override protected String extractFieldValue(PropertyDescriptor property) {
             return property.getPropertyType().getCanonicalName();
         }
@@ -52,18 +54,20 @@ public enum PropertyTemplateFields {
     public static final String PROPERTY_HANDLER_CLASSNAME_PATTERN = "%s_%sPropertyHandler";
 
 
-    private final String name;
+    private final String element;
 
     PropertyTemplateFields(String name) {
-        this.name = name;
+        this.element = name;
     }
 
-
-
-    public String getName() {
-        return name;
+    public String getElement() {
+        return element;
     }
 
     protected abstract String extractFieldValue(PropertyDescriptor property);
+
+    public void writeToContext(VelocityContext context, PropertyDescriptor property){
+        context.put(this.getElement(), extractFieldValue(property));
+    }
 
 }

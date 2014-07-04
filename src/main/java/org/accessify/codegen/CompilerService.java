@@ -1,5 +1,6 @@
 package org.accessify.codegen;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,28 +20,26 @@ class CompilerService {
 
     static final Locale DEFAULT_LOCALE = Locale.getDefault();
     static final Logger LOG = LoggerFactory.getLogger(CompilerService.class);
-
-
     static final String GENERATED_CLASS_FILES_FOLDER = "target/classes";
 
     final String classFilesFolderName;
-    private final JavaCompiler compiler;
-    private StandardJavaFileManager fileManager;
+    final JavaCompiler compiler;
+    StandardJavaFileManager fileManager;
 
     public CompilerService(String classFilesFolderName) {
         this.classFilesFolderName = classFilesFolderName;
-        compiler = ToolProvider.getSystemJavaCompiler();
+        this.compiler = ToolProvider.getSystemJavaCompiler();
         initFileManager();
-    }
-
-    private void initFileManager() {
-        fileManager = compiler
-            .getStandardFileManager(new DiagnosticLoggingListener("FILE_MANAGER"), DEFAULT_LOCALE,
-                Charset.defaultCharset());
     }
 
     public CompilerService() {
         this(GENERATED_CLASS_FILES_FOLDER);
+    }
+
+    private void initFileManager() {
+        this.fileManager = compiler
+            .getStandardFileManager(new DiagnosticLoggingListener("FILE_MANAGER"), DEFAULT_LOCALE,
+                Charset.defaultCharset());
     }
 
     /**
@@ -63,13 +62,13 @@ class CompilerService {
             classesNames,
             javaFiles
         ).call();
-        fileManager.close();
-        initFileManager();
+//        fileManager.close();
+//        initFileManager();
         return success;
     }
 
-    public ClassLoader classLoader(){
-        return fileManager.getClassLoader(null);
+    public ClassLoader classLoader() {
+        return ToolProvider.getSystemToolClassLoader();
     }
 
     public Boolean compileGeneratedSourceFiles(List<String> classesNames, File... files)
@@ -90,34 +89,47 @@ class CompilerService {
         final String label;
 
         DiagnosticLoggingListener(String label) {
-            this.label = label;
+            this.label = (stringWithDefault(label, "COMPILING"));
         }
 
         @Override
         public void report(Diagnostic<? extends JavaFileObject> diagnostic) {
-            switch (diagnostic.getKind()) {
-                case ERROR:
-                    LOG.error("[{}] {} {} at {}:{}", label, diagnostic.getCode(),
-                        diagnostic.getMessage(DEFAULT_LOCALE), diagnostic.getSource().getName(),
-                        diagnostic.getLineNumber());
-                    break;
-                case WARNING:
-                case MANDATORY_WARNING:
-                    LOG.warn("[{}] {} {} at {}:{}", label, diagnostic.getCode(),
-                        diagnostic.getMessage(DEFAULT_LOCALE), diagnostic.getSource().getName(),
-                        diagnostic.getLineNumber());
-                    break;
-                case NOTE:
-                    LOG.info("[{}] {} {} at {}:{}", label, diagnostic.getCode(),
-                        diagnostic.getMessage(DEFAULT_LOCALE), diagnostic.getSource().getName(),
-                        diagnostic.getLineNumber());
-                    break;
-                case OTHER:
-                    LOG.debug("[{}] {} {} at {}:{}", label, diagnostic.getCode(),
-                        diagnostic.getMessage(DEFAULT_LOCALE), diagnostic.getSource().getName(),
-                        diagnostic.getLineNumber());
-                    break;
+            if (LOG != null) {
+                switch (diagnostic.getKind()) {
+                    case ERROR:
+                        LOG.error(
+                            "[{}] {} {} at {}:{}",
+                            this.label,
+                            stringWithDefault(diagnostic.getCode(), "NO_CODE"),
+                            stringWithDefault(diagnostic.getMessage(DEFAULT_LOCALE), "NO_MESSAGE"),
+                            stringWithDefault((diagnostic.getSource() != null ?
+                                diagnostic.getSource().getName() :
+                                ""), "NO_SOURCE"),
+                            stringWithDefault(Long.toString(diagnostic.getLineNumber()),
+                                "NO_LINE"));
+                        break;
+                    case WARNING:
+                    case MANDATORY_WARNING:
+                        LOG.warn("[{}] {} {} at {}:{}", label, diagnostic.getCode(),
+                            diagnostic.getMessage(DEFAULT_LOCALE), diagnostic.getSource().getName(),
+                            diagnostic.getLineNumber());
+                        break;
+                    case NOTE:
+                        LOG.info("[{}] {} {} at {}:{}", label, diagnostic.getCode(),
+                            diagnostic.getMessage(DEFAULT_LOCALE), diagnostic.getSource().getName(),
+                            diagnostic.getLineNumber());
+                        break;
+                    case OTHER:
+                        LOG.debug("[{}] {} {} at {}:{}", label, diagnostic.getCode(),
+                            diagnostic.getMessage(DEFAULT_LOCALE), diagnostic.getSource().getName(),
+                            diagnostic.getLineNumber());
+                        break;
+                }
             }
+        }
+
+        private String stringWithDefault(String code, String d) {
+            return StringUtils.isNotBlank(code) ? code : d;
         }
     }
 

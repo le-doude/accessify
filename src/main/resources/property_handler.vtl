@@ -1,17 +1,17 @@
 package ${package};
 
 import org.accessify.handlers.PropertyHandler;
-import ${package}.${entity};
+import ${package}.${handledTypeName};
 
-public class ${handlerClassName} implements PropertyHandler<${entity}, ${value}> {
+public class ${handlerClassName} implements PropertyHandler<${handledTypeName}, ${propertyReturnType}> {
 
     @Override
-    public void set(${entity} instance, ${value} value) {
+    public void set(${handledTypeName} instance, ${propertyReturnType} value) {
         instance.${setter}(value);
     }
 
     @Override
-    public ${value} get(${entity} instance) {
+    public ${propertyReturnType} get(${handledTypeName} instance) {
         return instance.${getter}();
     }
 
@@ -21,7 +21,7 @@ public class ${handlerClassName} implements PropertyHandler<${entity}, ${value}>
     }
 
     @Override
-    public Class<${value}> type(){
-        return ${value}.class;
+    public Class<${propertyReturnType}> type(){
+        return ${propertyReturnType}.class;
     }
 }

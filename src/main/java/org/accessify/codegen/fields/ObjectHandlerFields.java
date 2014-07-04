@@ -1,5 +1,6 @@
 package org.accessify.codegen.fields;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
 
 import java.beans.IntrospectionException;
@@ -21,15 +22,17 @@ public enum ObjectHandlerFields {
         @Override public Object extractFieldValue(Class type) {
             try {
                 String simpleName = type.getSimpleName();
-                String packName = type.getPackage().getName();
                 PropertyDescriptor[] descriptors =
                     Introspector.getBeanInfo(type).getPropertyDescriptors();
                 ArrayList<String> properties = new ArrayList<>();
                 for (PropertyDescriptor descriptor : descriptors) {
-                    properties.add(packName + "." + String
-                        .format(PropertyTemplateFields.PROPERTY_HANDLER_CLASSNAME_PATTERN,
-                            descriptor.getName(),
-                            simpleName));
+                    if (descriptor != null && !StringUtils
+                        .equalsIgnoreCase("class", descriptor.getName())) {
+                        properties.add(String
+                            .format(PropertyTemplateFields.PROPERTY_HANDLER_CLASSNAME_PATTERN,
+                                descriptor.getName(),
+                                simpleName));
+                    }
                 }
                 return properties;
             } catch (IntrospectionException ignored) {
@@ -52,18 +55,18 @@ public enum ObjectHandlerFields {
 
     static final String OBJECT_HANDLER_CLASSNAME_PATTERN = "%sObjectHandler";
 
-    private final String name;
+    private final String element;
 
     ObjectHandlerFields(java.lang.String name) {
-        this.name = name;
+        this.element = name;
     }
 
     public void writeToContext(VelocityContext context, Class type) {
-        context.put(name, extractFieldValue(type));
+        context.put(element, extractFieldValue(type));
     }
 
-    public String getName() {
-        return name;
+    public String getElement() {
+        return element;
     }
 
     public abstract Object extractFieldValue(Class type);

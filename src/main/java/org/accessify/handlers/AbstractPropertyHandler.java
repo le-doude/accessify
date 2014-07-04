@@ -7,7 +7,7 @@ public abstract class AbstractPropertyHandler<T, V> implements PropertyHandler<T
 
     private final String property;
 
-    protected AbstractPropertyHandler(String property) {
+    public AbstractPropertyHandler(String property) {
         this.property = property;
     }
 

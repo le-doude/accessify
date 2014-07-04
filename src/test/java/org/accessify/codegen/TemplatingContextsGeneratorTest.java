@@ -29,13 +29,13 @@ public class TemplatingContextsGeneratorTest {
             new PropertyDescriptor("onlyOne", DummyHandledTypeOneProperty.class)
         );
         assertNotNull(context);
-        assertTrue(context.internalContainsKey(PropertyTemplateFields.VALUE));
+        assertTrue(context.internalContainsKey(PropertyTemplateFields.PROPERTY_RETURN_TYPE));
         assertTrue(context.internalContainsKey(PropertyTemplateFields.GETTER));
         assertTrue(context.internalContainsKey(PropertyTemplateFields.SETTER));
         assertTrue(context.internalContainsKey(PropertyTemplateFields.PROPERTY));
         assertTrue(context.internalContainsKey(PropertyTemplateFields.HANDLER_TYPE));
         assertTrue(context.internalContainsKey(PropertyTemplateFields.PACKAGE));
-        assertTrue(context.internalContainsKey(PropertyTemplateFields.ENTITY));
+        assertTrue(context.internalContainsKey(PropertyTemplateFields.HANDLED_TYPE_NAME));
         LOG.debug(ContextDebugUtil.toString(context));
     }
 
@@ -56,13 +56,13 @@ public class TemplatingContextsGeneratorTest {
         assertTrue(isNotEmpty(contexts));
         assertEquals(3, contexts.size());
         for (VelocityContext context : contexts) {
-            assertTrue(context.internalContainsKey(PropertyTemplateFields.VALUE));
+            assertTrue(context.internalContainsKey(PropertyTemplateFields.PROPERTY_RETURN_TYPE));
             assertTrue(context.internalContainsKey(PropertyTemplateFields.GETTER));
             assertTrue(context.internalContainsKey(PropertyTemplateFields.SETTER));
             assertTrue(context.internalContainsKey(PropertyTemplateFields.PROPERTY));
             assertTrue(context.internalContainsKey(PropertyTemplateFields.HANDLER_TYPE));
             assertTrue(context.internalContainsKey(PropertyTemplateFields.PACKAGE));
-            assertTrue(context.internalContainsKey(PropertyTemplateFields.ENTITY));
+            assertTrue(context.internalContainsKey(PropertyTemplateFields.HANDLED_TYPE_NAME));
             LOG.debug(ContextDebugUtil.toString(context));
         }
     }
