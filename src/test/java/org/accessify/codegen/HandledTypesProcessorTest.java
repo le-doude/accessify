@@ -59,7 +59,5 @@ public class HandledTypesProcessorTest {
         assertEquals(example.getEmbedded().getInteger(), handler.get(example, "embedded.integer"));
         assertEquals(example.getEmbedded().getString(), handler.get(example, "embedded.string"));
         assertEquals(null, handler.get(example, "embedded.embedded"));
-
-
     }
 }
