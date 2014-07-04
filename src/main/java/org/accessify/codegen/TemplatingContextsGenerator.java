@@ -14,7 +14,6 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -49,7 +48,7 @@ class TemplatingContextsGenerator {
             }
             return contexts;
         } else {
-            return Collections.emptyList();
+            throw new IllegalArgumentException("Needs to be marked as @HandledType");
         }
     }
 
@@ -61,12 +60,8 @@ class TemplatingContextsGenerator {
             }
             return context;
         } else {
-            return null;
+            throw new IllegalArgumentException("Needs to be marked as @HandledType");
         }
-    }
-
-    private static void addToEmbeddedHandlers(PropertyDescriptor property) {
-        //TODO: Actually figure a way to embed HandledTypes properties
     }
 
     public static VelocityContext toContext(PropertyDescriptor property) {
