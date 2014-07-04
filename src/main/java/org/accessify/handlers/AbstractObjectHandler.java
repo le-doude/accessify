@@ -89,16 +89,17 @@ public abstract class AbstractObjectHandler<T> implements ObjectHandler<T> {
         V value, String... path) {
         PropertyHandler th = this.obtainHandler(path[0]);
         Object temp = instance;
+        Object temp2 = null;
         ObjectHandler handler;
-        int lastIndex = path.length - 1;
-        for (int i = 1; i < lastIndex; i++) {
+        for (int i = 1; i < path.length; i++) {
             if (th instanceof EmbeddedPropertyHandler) {
                 handler = ((EmbeddedPropertyHandler) th).getHandler();
-                temp = th.get(temp);
-                if (temp == null) {
-                    temp = handler.newInstance();
-                    th.set(path[i], temp);
+                temp2 = th.get(temp);
+                if (temp2 == null) {
+                    temp2 = handler.newInstance();
+                    th.set(temp, temp2);
                 }
+                temp = temp2;
                 th = handler.obtainHandler(path[i]);
             } else {
                 throw new NoSuchFieldError();
