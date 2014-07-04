@@ -50,6 +50,7 @@ public class HandledTypesProcessorTest {
         assertEquals(bool2, example.getEmbedded().getBool());
         assertEquals(integer2, example.getEmbedded().getInteger().intValue());
         assertEquals(string2, example.getEmbedded().getString());
+        assertEquals(null, example.getEmbedded().getEmbedded());
 
         assertEquals(example.getBool(), handler.get(example, "bool"));
         assertEquals(example.getInteger(), handler.get(example, "integer"));
@@ -57,6 +58,8 @@ public class HandledTypesProcessorTest {
         assertEquals(example.getEmbedded().getBool(), handler.get(example, "embedded.bool"));
         assertEquals(example.getEmbedded().getInteger(), handler.get(example, "embedded.integer"));
         assertEquals(example.getEmbedded().getString(), handler.get(example, "embedded.string"));
+        assertEquals(null, handler.get(example, "embedded.embedded"));
+
 
     }
 }
