@@ -3,6 +3,7 @@ package org.accessify.codegen;
 import base.DummyHandledType;
 import base.DummyHandledTypeOneProperty;
 import base.DummyNonHandledType;
+import org.accessify.codegen.data.PropertyHandlerContext;
 import org.accessify.codegen.fields.ObjectHandlerFields;
 import org.accessify.codegen.fields.PropertyTemplateFields;
 import org.accessify.utils.ContextDebugUtil;
@@ -50,27 +51,29 @@ public class TemplatingContextsGeneratorTest {
     @Test
     public void testPropertyHandlers() throws Exception {
         Class<DummyHandledType> clazz = DummyHandledType.class;
-        List<VelocityContext> contexts =
+        List<PropertyHandlerContext> contexts =
             TemplatingContextsGenerator.generatePropertyHandlersContexts(clazz);
         assertNotNull(contexts);
         assertTrue(isNotEmpty(contexts));
         assertEquals(3, contexts.size());
-        for (VelocityContext context : contexts) {
-            assertTrue(context.internalContainsKey(PropertyTemplateFields.PROPERTY_RETURN_TYPE));
-            assertTrue(context.internalContainsKey(PropertyTemplateFields.GETTER));
-            assertTrue(context.internalContainsKey(PropertyTemplateFields.SETTER));
-            assertTrue(context.internalContainsKey(PropertyTemplateFields.PROPERTY));
-            assertTrue(context.internalContainsKey(PropertyTemplateFields.HANDLER_TYPE));
-            assertTrue(context.internalContainsKey(PropertyTemplateFields.PACKAGE));
-            assertTrue(context.internalContainsKey(PropertyTemplateFields.HANDLED_TYPE_NAME));
-            LOG.debug(ContextDebugUtil.toString(context));
+        for (PropertyHandlerContext context : contexts) {
+            assertTrue(context.getContext()
+                .internalContainsKey(PropertyTemplateFields.PROPERTY_RETURN_TYPE));
+            assertTrue(context.getContext().internalContainsKey(PropertyTemplateFields.GETTER));
+            assertTrue(context.getContext().internalContainsKey(PropertyTemplateFields.SETTER));
+            assertTrue(context.getContext().internalContainsKey(PropertyTemplateFields.PROPERTY));
+            assertTrue(context.getContext().internalContainsKey(PropertyTemplateFields.HANDLER_TYPE));
+            assertTrue(context.getContext().internalContainsKey(PropertyTemplateFields.PACKAGE));
+            assertTrue(context.getContext().internalContainsKey(
+                PropertyTemplateFields.HANDLED_TYPE_NAME));
+            LOG.debug(ContextDebugUtil.toString(context.getContext()));
         }
     }
 
     @Test
     public void testPropertyHandlersEmpty() throws Exception {
         Class<DummyNonHandledType> clazz = DummyNonHandledType.class;
-        List<VelocityContext> contexts =
+        List<PropertyHandlerContext> contexts =
             TemplatingContextsGenerator.generatePropertyHandlersContexts(clazz);
         assertNotNull(contexts);
         assertTrue(isEmpty(contexts));

@@ -1,6 +1,8 @@
 package org.accessify.codegen;
 
 import org.accessify.annotations.HandledType;
+import org.accessify.codegen.data.PropertyHandlerContext;
+import org.accessify.codegen.data.TemplateType;
 import org.accessify.codegen.fields.ObjectHandlerFields;
 import org.accessify.codegen.fields.PropertyTemplateFields;
 import org.apache.commons.lang3.StringUtils;
@@ -22,22 +24,27 @@ class TemplatingContextsGenerator {
 
     private static final Logger LOG = LoggerFactory.getLogger(TemplatingContextsGenerator.class);
 
-    public static List<VelocityContext> generatePropertyHandlersContexts(Class<?> clazz)
+    public static List<PropertyHandlerContext> generatePropertyHandlersContexts(Class<?> clazz)
         throws IntrospectionException {
         if (clazz.isAnnotationPresent(HandledType.class)) {
             PropertyDescriptor[] properties =
                 Introspector.getBeanInfo(clazz).getPropertyDescriptors();
-            ArrayList<VelocityContext> contexts = new ArrayList<>(properties.length);
+            ArrayList<PropertyHandlerContext> contexts = new ArrayList<>(properties.length);
             VelocityContext temp;
             LOG.debug("Found {} properties", properties.length);
             for (PropertyDescriptor property : properties) {
                 if (!property.getPropertyType().isAnnotationPresent(HandledType.class)) {
                     temp = toContext(property);
                     if (temp != null) {
-                        contexts.add(temp);
+                        contexts.add(PropertyHandlerContext.make().setContext(temp)
+                            .setTemplate(TemplateType.normal));
                     }
                 } else {
-                    addToEmbeddedHandlers(property);
+                    temp = toContext(property);
+                    if (temp != null) {
+                        contexts.add(PropertyHandlerContext.make().setContext(temp)
+                            .setTemplate(TemplateType.embeddedHandledType));
+                    }
                 }
             }
             return contexts;

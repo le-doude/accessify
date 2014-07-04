@@ -1,5 +1,6 @@
 package org.accessify.codegen;
 
+import org.accessify.codegen.data.PropertyHandlerContext;
 import org.accessify.codegen.fields.ObjectHandlerFields;
 import org.accessify.codegen.fields.PropertyTemplateFields;
 import org.accessify.handlers.HandlingFactory;
@@ -42,7 +43,7 @@ public class HandledTypesProcessor {
         File sourceDirectory = FilesUtils.makeDirIfNotExists(codeGenDirectory);
 
 
-        List<VelocityContext> propertyHandlersContexts;
+        List<PropertyHandlerContext> propertyHandlersContexts;
         VelocityContext objectHandlerContext;
         ArrayList<File> propertyHandlersFiles = new ArrayList<>();
         ArrayList<File> typeHandlersFiles = new ArrayList<>();
@@ -56,8 +57,8 @@ public class HandledTypesProcessor {
             String fileName;
             String className;
             File temp;
-            for (VelocityContext phc : propertyHandlersContexts) {
-                className = (String) phc.get(PropertyTemplateFields.HANDLER_TYPE.getElement());
+            for (PropertyHandlerContext phc : propertyHandlersContexts) {
+                className = (String) phc.getContext().get(PropertyTemplateFields.HANDLER_TYPE.getElement());
                 fileName = className + ".java";
                 temp = new File(sourceDirectory, fileName);
                 try (FileWriter writer = new FileWriter(temp)) {

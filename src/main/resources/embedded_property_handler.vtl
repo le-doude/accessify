@@ -27,7 +27,7 @@ public class ${handlerClassName} implements PropertyHandler<${handledTypeName}, 
         return ${propertyReturnType}.class;
     }
 
-    private final ObjectHandler<${propertyReturnType}> _handler;
+    private ObjectHandler<${propertyReturnType}> _handler;
     @Override
     public ObjectHandler<${propertyReturnType}> getHandler(){
         if(_handler == null){
