@@ -21,4 +21,6 @@ public interface ObjectHandler<T> {
     Class<T> handledType();
 
     T newInstance();
+
+    <V> PropertyHandler<T, V> obtainHandler(String s);
 }

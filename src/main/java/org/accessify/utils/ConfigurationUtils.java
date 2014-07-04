@@ -9,4 +9,5 @@ public class ConfigurationUtils {
     public static final String CLASS_FILE_DIR = "target/classes/generated"; //TODO
     public static final String FACTORY_INSTANCE_NAME = "ELVIS";//TODO
 
+    public static final String FIELD_PATH_SEPARATOR = "[.]";
 }

@@ -59,8 +59,7 @@ class TemplatingContextsGenerator {
     }
 
     private static void addToEmbeddedHandlers(PropertyDescriptor property) {
-        //TODO
-        //        throw new NotImplementedException("addToEmbeddedHandlers");
+        //TODO: Actually figure a way to embed HandledTypes properties
     }
 
     public static VelocityContext toContext(PropertyDescriptor property) {

@@ -1,0 +1,38 @@
+package ${package};
+
+import org.accessify.handlers.PropertyHandler;
+import org.accessify.handlers.EmbeddedPropertyHandler;
+import org.accessify.handlers.ObjectHandler;
+import ${package}.${handledTypeName};
+
+public class ${handlerClassName} implements PropertyHandler<${handledTypeName}, ${propertyReturnType}>, EmbeddedPropertyHandler<${propertyReturnType}> {
+
+    @Override
+    public void set(${handledTypeName} instance, ${propertyReturnType} value) {
+        instance.${setter}(value);
+    }
+
+    @Override
+    public ${propertyReturnType} get(${handledTypeName} instance) {
+        return instance.${getter}();
+    }
+
+    @Override
+    public String property() {
+        return "${property}";
+    }
+
+    @Override
+    public Class<${propertyReturnType}> type(){
+        return ${propertyReturnType}.class;
+    }
+
+    private final ObjectHandler<${propertyReturnType}> _handler;
+    @Override
+    public ObjectHandler<${propertyReturnType}> getHandler(){
+        if(_handler == null){
+            _handler = factory.handler(${propertyReturnType}.class);
+        }
+        return _handler;
+    }
+}

@@ -18,5 +18,4 @@ public interface PropertyHandler<T, V> {
     String property();
 
     Class<V> type();
-
 }

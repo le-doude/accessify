@@ -15,6 +15,8 @@ public class DummyHandledType {
 
     private Boolean bool;
 
+    private DummyHandledType embedded;
+
     @Property.Getter(name = "string")
     public String getString() {
         return string;
@@ -43,5 +45,13 @@ public class DummyHandledType {
     @Property.Setter(name = "bool")
     public void setBool(Boolean bool) {
         this.bool = bool;
+    }
+
+    public DummyHandledType getEmbedded() {
+        return embedded;
+    }
+
+    public void setEmbedded(DummyHandledType embedded) {
+        this.embedded = embedded;
     }
 }
