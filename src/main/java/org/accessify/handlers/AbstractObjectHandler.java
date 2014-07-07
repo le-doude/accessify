@@ -58,8 +58,25 @@ public abstract class AbstractObjectHandler<T> implements ObjectHandler<T> {
     @Override
     public Map<String, Object> getAll(T instance) {
         LinkedHashMap<String, Object> all = new LinkedHashMap<String, Object>(this.handlers.size());
+        Object temp;
         for (PropertyHandler<T, ?> handler : this.handlers.values()) {
-            all.put(handler.property(), handler.get(instance));
+            if (handler instanceof EmbeddedPropertyHandler) {
+                temp = handler.get(instance);
+                if (temp != null) {
+                    Map<String, Object> inner = Collections.checkedMap(
+                        ((EmbeddedPropertyHandler) handler).getHandler().getAll(temp),
+                        String.class, Object.class);
+                    for (Map.Entry<String, Object> entry : inner.entrySet()) {
+                        all.put(handler.property() + "." + entry
+                            .getKey(), entry.getValue());
+                    }
+                }
+            } else {
+                temp = handler.get(instance);
+                if (temp != null) {
+                    all.put(handler.property(), temp);
+                }
+            }
         }
         return Collections.unmodifiableMap(all);
     }
