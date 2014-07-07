@@ -62,8 +62,9 @@ Simple enough. Whether this is useful to anybody but me is another question enti
 Developments
 ------------
 
-I am still trying to figure how to manage embedded `@HandledType`(s) within other `@HandledType`(s).
-I welcome any input on this. And feel free to contribute to the code.
+embedded `@HandledType`(s) within other `@HandledType`(s). Is done and that was more obvious than anticipated.
+Now on to collections, lists, sets and maps. How to work that out?
+
 
 I plan on implementing both Maven and SBT support. I will rely on the community for integrating with any other build tools.
 
