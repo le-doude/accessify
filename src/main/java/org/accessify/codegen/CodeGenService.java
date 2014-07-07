@@ -17,6 +17,8 @@ import static org.apache.commons.lang3.StringUtils.isNoneBlank;
 
 /**
  * Created by edouard on 14/06/16.
+ *
+ * NOT THREAD SAFE!!! ONLY USE ONE
  */
 class CodeGenService {
 

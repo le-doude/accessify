@@ -47,7 +47,6 @@ public class HandledTypesProcessor {
         VelocityContext objectHandlerContext;
         ArrayList<File> propertyHandlersFiles = new ArrayList<>();
         ArrayList<File> typeHandlersFiles = new ArrayList<>();
-        ArrayList<String> propertyHandlersClasses = new ArrayList<>();
         ArrayList<String> typeHandlersClasses = new ArrayList<>();
         //TODO: Get rid of this ugly code!!!!
         for (Class handledType : handledTypes) {
@@ -58,7 +57,8 @@ public class HandledTypesProcessor {
             String className;
             File temp;
             for (PropertyHandlerContext phc : propertyHandlersContexts) {
-                className = (String) phc.getContext().get(PropertyTemplateFields.HANDLER_TYPE.getElement());
+                className =
+                    (String) phc.getContext().get(PropertyTemplateFields.HANDLER_TYPE.getElement());
                 fileName = className + ".java";
                 temp = new File(sourceDirectory, fileName);
                 try (FileWriter writer = new FileWriter(temp)) {
@@ -66,7 +66,6 @@ public class HandledTypesProcessor {
                     writer.flush();
                 }
                 propertyHandlersFiles.add(temp);
-                propertyHandlersClasses.add(className);
             }
 
             className = objectHandlerContext
@@ -88,9 +87,8 @@ public class HandledTypesProcessor {
 
         ArrayList<Class> clazzes = new ArrayList<>();
         //if compiles are successfull
-        if (service.compileGeneratedSourceFiles(propertyHandlersFiles) && service
-            .compileGeneratedSourceFiles(typeHandlersFiles)) {
-
+        if (service.compileGeneratedSourceFiles(propertyHandlersFiles) &&
+            service.compileGeneratedSourceFiles(typeHandlersFiles)) {
             ClassLoader classLoader = ToolProvider.getSystemToolClassLoader();
             //Load all ObjectHandler classes compiled
             for (String name : typeHandlersClasses) {
