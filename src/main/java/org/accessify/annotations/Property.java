@@ -1,5 +1,7 @@
 package org.accessify.annotations;
 
+import org.accessify.handlers.ToStringConverter;
+
 import java.lang.annotation.*;
 
 /**
@@ -13,8 +15,6 @@ public @interface Property {
     @Inherited
     public static @interface Getter {
         String name();
-
-        Class<?> type() default None.class;
     }
 
 
@@ -23,11 +23,35 @@ public @interface Property {
     @Inherited
     public static @interface Setter {
         String name();
-
-        Class<?> type() default None.class;
     }
 
 
-    public static class None {
+    @Target({ElementType.METHOD})
+    @Retention(RetentionPolicy.RUNTIME)
+    @Inherited
+    public static @interface HandledMap {
+        Class<? extends ToStringConverter> keyBridge() default IdentityStringBridge.class;
+
+        Class<?> contentAs();
+
+        boolean contentIsHandledType() default false;
     }
+
+
+    @Target({ElementType.METHOD})
+    @Retention(RetentionPolicy.RUNTIME)
+    @Inherited
+    public static @interface HandledList {
+        Class<?> contentAs();
+
+        boolean contentIsHandledType() default false;
+    }
+
+
+    public static final class IdentityStringBridge implements ToStringConverter<String> {
+        @Override public String apply(String s) {
+            return s;
+        }
+    }
+
 }

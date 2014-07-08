@@ -39,8 +39,6 @@ public class ExperimentOne {
     //    @Test
     public void testName() throws Exception {
 
-
-
         Method[] methods = DummyHandledType.class.getDeclaredMethods();
         Map<String, String> settersNAme = new HashMap<>();
         for (Method setter : methods) {

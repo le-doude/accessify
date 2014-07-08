@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by edouard on 14/06/11.
@@ -37,7 +38,7 @@ public abstract class AbstractObjectHandler<T> implements ObjectHandler<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public <V> PropertyHandler<T, V> obtainHandler(String propertyName) {
+    public <V> PropertyHandler<T, V> obtainHandler(String propertyName) throws ExecutionException {
         PropertyHandler<T, ?> handler = this.handlers.get(propertyName);
         if (handler == null) {
             throw new NoSuchFieldError(propertyName);
@@ -69,9 +70,13 @@ public abstract class AbstractObjectHandler<T> implements ObjectHandler<T> {
                         String.class, Object.class);
                     for (Map.Entry<String, Object> entry : inner.entrySet()) {
                         all.put(
-                            new StringBuilder().append(handler.property()).append(".").append(entry
-                                .getKey()).toString(),
-                            entry.getValue());
+                            new StringBuilder().
+                                append(handler.property()).
+                                append(".").
+                                append(entry.getKey()).
+                                toString(),
+                            entry.getValue()
+                        );
                     }
                 }
             } else {

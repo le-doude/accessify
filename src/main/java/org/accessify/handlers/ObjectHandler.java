@@ -2,6 +2,7 @@ package org.accessify.handlers;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by edouard on 14/06/11.
@@ -22,5 +23,5 @@ public interface ObjectHandler<T> {
 
     T newInstance();
 
-    <V> PropertyHandler<T, V> obtainHandler(String s);
+    <V> PropertyHandler<T, V> obtainHandler(String s) throws ExecutionException;
 }
