@@ -1,8 +1,9 @@
 Accessify
 =========
 
-###THIS IS NOT IN A WORKING STATE!!!
-###DO NOT TRY TO USE!!!! yet.
+This project was never meant to be a working tool that people could use in professional projects. It is just there because I wanted to clear some ideas that I had for making some tools that use Java Reflection faster (for example I had some bad experience with Hibernate and hug lists of entities).
+
+Feel free to use the code here, but find it in your heart to credit me.
 
 Goals
 -----
